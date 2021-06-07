@@ -12,18 +12,18 @@
 
 # non-critical if stale
 [[headers]]
-  for = "/sitemap.xml"
+  for = "sitemap.xml"
   [headers.values]
     Cache-Control = "public, max-age=300"
 
 # non-critical if stale
 [[headers]]
-  for = "/search/search_index.json"
+  for = "search/search_index.json"
   [headers.values]
     Cache-Control = "public, max-age=300"
 
 # non-critical if stale
 [[headers]]
-  for = "/assets/images/favicon.png"
+  for = "assets/images/favicon.png"
   [headers.values]
     Cache-Control = "public, max-age=3600"
