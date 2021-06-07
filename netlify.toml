@@ -1,0 +1,9 @@
+[[headers]]
+  for = "*.min.js"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, immutable"
+
+[[headers]]
+  for = "*.min.css"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, immutable"
