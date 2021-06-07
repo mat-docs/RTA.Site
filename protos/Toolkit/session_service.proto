@@ -1,0 +1,358 @@
+syntax = "proto3";
+
+package rta.toolkit.api.session_service;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "MAT.OCS.RTA.Toolkit.API.SessionService";
+
+// TODO what we're missing here is the metamodel schema - we should provide a way for this to be described
+
+message SessionFolder {
+    string identity = 1;
+    string label = 2;
+    string description = 3;
+    bool has_children = 4;
+}
+
+message CreateOrUpdateSessionRequest {
+    string identity = 1;
+    google.protobuf.Int64Value sequence = 2;
+
+    CreateIfNotExists create_if_not_exists = 3;
+    repeated SessionUpdate updates = 4;
+
+    message CreateIfNotExists {
+        string timestamp = 1;
+        string identifier = 2;
+	}
+}
+
+message SessionUpdate {
+
+    oneof op {
+        google.protobuf.Empty update_heartbeat = 1;
+
+        int32 set_state = 3;
+        string set_timestamp = 4;
+
+        TimeRange set_time_range = 6;
+        TimeRange extend_time_range = 5;
+        google.protobuf.Empty clear_time_range = 7;
+
+        string set_identifier = 8;
+        
+        SessionDetailsList set_details = 11;
+        SessionDetailsList put_details = 9;
+        SessionDetailKeysList delete_details = 10;
+        
+        SessionExtDetailsList set_ext_details = 14;
+        SessionExtDetailsList put_ext_details = 12;
+        SessionExtDetailKeysList delete_ext_details = 13;
+        
+        google.protobuf.StringValue set_type = 15;
+        google.protobuf.Empty clear_type = 16;
+        
+        double set_quality = 17;
+        google.protobuf.Empty clear_quality = 18;
+        
+        string set_group = 19;
+        google.protobuf.Empty clear_group = 20;
+        
+        string set_version = 21;
+        google.protobuf.Empty clear_version = 22;
+
+        MarkersList set_markers = 25;
+        MarkersList put_markers = 23;
+        MarkerIdsList delete_markers = 24;
+
+        ConfigBindingsList set_config_bindings = 28;
+        ConfigBindingsList put_config_bindings = 26;
+        ConfigIdentifiersList delete_config_bindings = 27;
+
+        DataBindingsList set_data_bindings = 31;
+        DataBindingsList put_data_bindings = 29;
+        DataBindingKeysList delete_data_bindings = 30;
+
+        FoldersList set_folders = 34;
+        FoldersList put_folders = 32;
+        FoldersList delete_folders = 33;
+
+        RefUrisList set_ref_anchors = 37;
+        RefUrisList put_ref_anchors = 35;
+        RefUrisList delete_ref_anchors = 36;
+
+        RefUrisList set_alternate_of_refs = 40;
+        RefUrisList put_alternate_of_refs = 38;
+        RefUrisList delete_alternate_of_refs = 39;
+
+        RefUrisList set_child_of_refs = 43;
+        RefUrisList put_child_of_refs = 41;
+        RefUrisList delete_child_of_refs = 42;
+	}
+
+    message TimeRange {
+        int64 start_time = 1;
+        int64 end_time = 2;
+    }    
+
+    message SessionDetailKeysList {
+        repeated string keys = 1;
+	}
+
+    message SessionDetailsList {
+        repeated SessionDetail details = 1;
+	}
+
+    message MarkerIdsList {
+        repeated string marker_ids = 1;
+	}
+
+    message MarkersList {
+        repeated Marker markers = 1;
+	}
+
+    message SessionExtDetailKeysList {
+        repeated SessionExtDetailKeys ext_details = 1;
+	}
+
+    message SessionExtDetailsList {
+        repeated SessionExtDetails ext_details = 1;
+	}
+
+    message ConfigIdentifiersList {
+        repeated string config_identifiers = 1;
+	}
+
+    message ConfigBindingsList {
+        repeated ConfigBinding config_bindings = 1;
+	}
+
+    message DataBindingKeysList {
+        repeated DataBindingKey keys = 1;
+	}
+
+    message DataBindingsList {
+        repeated DataBinding data_bindings = 1;
+	}
+
+    message FoldersList {
+        repeated string folder_identities = 1;
+	}
+
+    message RefUrisList {
+        repeated string ref_uris = 1;
+	}
+
+}
+
+message Marker {
+    string id = 1;
+    string type = 2;
+    string group = 3;
+    string label = 4;
+    google.protobuf.StringValue description = 5;   
+    google.protobuf.Int64Value start_time = 6;
+    google.protobuf.Int64Value end_time = 7;
+    map<string, MarkerProperty> properties = 8;
+}
+
+message MarkerProperty {
+    google.protobuf.StringValue label = 1;
+    google.protobuf.StringValue description = 2;
+    google.protobuf.StringValue format = 3;
+    google.protobuf.StringValue unit = 4;
+    oneof kind {
+	    bool bool_value = 5;
+	    int64 integer_value = 6;
+        double number_value = 7;
+	    string string_value = 8;
+        string datetime_value = 9;
+    }
+}
+
+message PropertySummary {
+    string id = 1;
+    string label = 2;
+    string description = 3;
+}
+
+message SessionDetail {
+    string key = 1;
+    oneof kind {
+	    bool bool_value = 2;
+	    int64 integer_value = 3;
+        double number_value = 4;
+	    string string_value = 5;
+        string datetime_value = 6;
+    }
+}
+
+message ConfigBinding {
+	string config_identifier = 1;
+	uint32 channel_offset = 2;
+}
+
+message DataBindingKey {
+    string source = 1;
+    string identity = 2;
+    int64 time_ref = 3;
+}
+
+message DataBinding {
+    DataBindingKey key = 1;
+
+    // Start of time range covered in the session (inclusive), in nanoseconds relative to the Unix epoch.
+    // Unbounded if not specified.
+    google.protobuf.Int64Value session_start_time = 2;
+
+    // End of time range covered in the session (inclusive), in nanoseconds relative to the Unix epoch.
+    // Unbounded if not specified.
+    google.protobuf.Int64Value session_end_time = 3;
+
+    // Offset of session time relative to data time, in nanoseconds.
+    // Zero implies that the data time is the same.
+    sint64 session_time_offset = 4;
+
+    map<string, string> directives = 5;
+
+    // Maps channels onto the session.
+    // If no channel bindings are specified, channel-based data requests (row, periodic, timestamped) are not bound.
+    repeated DataChannelBinding data_channel_bindings = 6;
+}
+
+message DataChannelBinding {
+    // Lowest numbered data channel corresponding to the lowest numbered session channel, to allow any necessary offset to be applied.
+    uint32 first_data_channel = 1;
+    // Lowest numbered channel (inclusive) in range, relative to the configuration bound to the session.
+    uint32 first_session_channel = 2;
+    // Highest numbered channel (inclusive) in range, relative to the configuration bound to the session.
+    uint32 last_session_channel = 3;
+}
+
+message SessionExtDetailKeys {
+    string category = 1;
+    repeated string keys = 2;
+}
+
+message SessionExtDetails {
+    string category = 1;
+    repeated SessionDetail details = 2;
+}
+
+message SessionElements {
+    bool json = 1;
+    repeated string json_properties = 2;
+    bool heartbeat_utc = 3;
+    bool data_bindings = 4;
+    bool folders = 5;
+    bool ref_anchors = 6;
+    bool child_of_refs = 7;
+    bool alternate_of_refs = 8;
+}
+
+// OK, so what I'm thinking here is that we have one session at different levels of detail
+// and then also some way to service data requests efficiently
+message Session {
+    string identity = 1;
+	string json = 2;
+    string heartbeat_utc = 3;
+	repeated DataBinding data_bindings = 4;
+	repeated string folders = 5;
+	repeated string ref_anchors = 6;
+	repeated string child_of_refs = 7;
+	repeated string alternate_of_refs = 8;
+}
+
+message GetSessionFoldersRequest {
+    string parent_identity = 1;
+}
+
+message GetSessionFoldersResponse {
+    repeated SessionFolder folders = 1;
+}
+
+message DeleteSessionFoldersRequest {
+    repeated string folder_identities = 1;
+}
+
+message PutSessionFolderRequest {
+    string parent_identity = 1;
+    string identity = 2;
+    string label = 3;
+    string description = 4;
+}
+
+message GetSessionMetamodelRequest {
+    string folder_subtree = 1;
+    repeated string json_properties = 2;
+}
+
+message GetSessionMetamodelResponse {
+    string metamodel_json = 1;
+}
+
+message QuerySessionMetamodelRequest {
+    string partial_match = 1;
+    string folder_subtree = 2;
+}
+
+message QuerySessionMetamodelResponse {
+    repeated PropertySummary property_summaries = 1;
+}
+
+message GetSessionRequest {
+    string identity = 1;
+    SessionElements elements = 2;
+}
+
+message DeleteSessionsRequest {
+    repeated string identities = 1;
+}
+
+// option to include metadata?
+message ListSessionsRequest {
+    string query = 1;
+    string folder_subtree = 2;
+    repeated string sorts = 3;
+    SessionElements session_elements = 4;
+    bool include_sub_sessions = 5;
+    int32 page_index = 6;
+    int32 page_size = 7;
+}
+
+message ListSessionsResponse {
+    repeated Session sessions = 1;
+}
+
+service SessionStore {
+
+	rpc GetSessionFolders(GetSessionFoldersRequest)
+	returns (GetSessionFoldersResponse);
+
+    rpc PutSessionFolder(PutSessionFolderRequest)
+    returns (google.protobuf.Empty);
+
+    rpc DeleteSessionFolders(DeleteSessionFoldersRequest)
+    returns (google.protobuf.Empty);
+
+	rpc GetSessionMetamodel(GetSessionMetamodelRequest)
+	returns (GetSessionMetamodelResponse);
+
+	rpc QuerySessionMetamodel(QuerySessionMetamodelRequest)
+	returns (QuerySessionMetamodelResponse);
+
+	rpc GetSession(GetSessionRequest)
+	returns (Session);
+
+	rpc ListSessions(ListSessionsRequest)
+	returns (ListSessionsResponse);
+
+    rpc CreateOrUpdateSession(CreateOrUpdateSessionRequest)
+    returns (google.protobuf.Empty);
+
+    rpc DeleteSessions(DeleteSessionsRequest)
+    returns (google.protobuf.Empty);
+    
+}

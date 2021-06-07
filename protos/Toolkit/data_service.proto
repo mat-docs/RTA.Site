@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package rta.toolkit.api.chunk_service;
+
+import "protos/API/model_data.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "MAT.OCS.RTA.Toolkit.API.DataService";
+
+message FlushMarker {
+	string id = 1;
+}
+
+message WriteDataStreamRequest {
+	oneof type {
+		string data_identity = 1;
+		FlushMarker flush = 2;
+		rta.model.data.TimestampedData timestamped_data = 3;
+		rta.model.data.PeriodicData periodic_data = 4;
+		rta.model.data.RowData row_data = 5;
+		rta.model.data.Event event = 6;
+	}
+}
+
+message WriteDataStreamResponse {
+	oneof type {
+		FlushMarker flush = 1;
+	}
+}
+
+message ReadDataStreamRequest {
+	string data_identity = 1;
+	google.protobuf.Int64Value start_time = 2;
+	google.protobuf.Int64Value end_time = 3;
+}
+
+message ReadChannelDataStreamRequest {
+	string data_identity = 1;
+	google.protobuf.Int64Value start_time = 2;
+	google.protobuf.Int64Value end_time = 3;
+	string channels = 4;
+}
+
+service DataWriter {
+	rpc WriteDataStream(stream WriteDataStreamRequest)
+	returns (stream WriteDataStreamResponse);
+}
+
+service DataReader {
+	rpc ReadTimestampedDataStream(ReadChannelDataStreamRequest)
+	returns (stream rta.model.data.TimestampedDataList);
+
+	rpc ReadPeriodicDataStream(ReadChannelDataStreamRequest)
+	returns (stream rta.model.data.PeriodicDataList);
+
+	rpc ReadRowDataStream(ReadChannelDataStreamRequest)
+	returns (stream rta.model.data.RowDataList);
+
+	rpc ReadEventsStream(ReadDataStreamRequest)
+	returns (stream rta.model.data.EventsList);
+}
+
+// TODO we could also consider a simple data management interface for list/delete

@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package rta.toolkit.api.schema_mapping_service;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "MAT.OCS.RTA.Toolkit.API.SchemaMappingService";
+
+enum TargetChannelDataType {
+	reserved 9;
+	TARGET_CHANNEL_DATA_TYPE_UNSPECIFIED = 0;
+	TARGET_CHANNEL_DATA_TYPE_UINT8 = 2;
+	TARGET_CHANNEL_DATA_TYPE_INT8 = 3;
+	TARGET_CHANNEL_DATA_TYPE_UINT16 = 4;
+	TARGET_CHANNEL_DATA_TYPE_INT16 = 5;
+	TARGET_CHANNEL_DATA_TYPE_UINT32 = 6;
+	TARGET_CHANNEL_DATA_TYPE_INT32 = 7;
+	TARGET_CHANNEL_DATA_TYPE_FLOAT32 = 8;
+	TARGET_CHANNEL_DATA_TYPE_DOUBLE64 = 10;
+}
+
+message SchemaMapping {
+	map<string, string> properties = 1;
+	repeated FieldMapping field_mappings = 2; 
+	repeated EventMapping event_mappings = 3;
+}
+
+message FieldMapping {
+	string source_field = 1;
+	uint32 target_channel = 2;
+
+	map<string, string> properties = 3;
+	string source_field_data_type = 4;
+	TargetChannelDataType target_channel_data_type = 5;
+}
+
+message EventMapping {
+	string source_event = 1;
+	string target_event_app = 2;
+	int32 target_event_id = 3;
+
+	map<string, string> properties = 4;
+	repeated string source_event_data_fields = 5;
+}
+
+message PutSchemaMappingRequest {
+	string data_source = 1;
+	string data_identity = 2;
+	SchemaMapping schema_mapping = 3;
+}
+
+message HasSchemaMappingRequest {
+	string data_source = 1;
+	string data_identity = 2;
+}
+
+message GetSchemaMappingRequest {
+	string data_source = 1;
+	string data_identity = 2;
+}
+
+message QuerySchemaMappingRequest {
+	string data_source = 1;
+	string data_identity = 2;
+	string select_channels = 3;
+	bool select_events = 4;
+}
+
+message DeleteSchemaMappingRequest {
+	string data_source = 1;
+	string data_identity = 2;
+}
+
+service SchemaMappingStore {
+
+	rpc HasSchemaMapping(HasSchemaMappingRequest)
+	returns (google.protobuf.BoolValue);
+
+	rpc GetSchemaMapping(GetSchemaMappingRequest)
+	returns (SchemaMapping);
+
+	rpc QuerySchemaMapping(QuerySchemaMappingRequest)
+	returns (SchemaMapping);
+
+	rpc PutSchemaMapping(PutSchemaMappingRequest)
+	returns (google.protobuf.Empty);
+
+	rpc DeleteSchemaMapping(DeleteSchemaMappingRequest)
+	returns (google.protobuf.Empty);
+
+}

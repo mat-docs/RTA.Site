@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package rta.model.net.stream;
+
+import "protos/API/model_data.proto";
+
+option csharp_namespace = "MAT.OCS.RTA.Model.Net.Stream";
+
+// Describes a change to the data subscription
+message StreamSubscription {
+	// Events mask.
+	bool all_events = 1;
+	// All data channels mask.
+	bool all_data_channels = 2;
+	// Specific data channels mask.
+	repeated uint32 data_channel_ids = 3;
+}
+
+// Request from the client.
+message StreamRequest {
+
+	// 1 - for a request id if we decide we need one
+	reserved 1;
+
+	// Request option.
+	oneof option {
+		// Widens the subscription.
+		StreamSubscription subscribe = 2;
+	}
+}
+
+// Updates the session time range.
+message StreamTimeRange {
+	
+	// Start time (inclusive) in nanoseconds relative to the Unix epoch.
+	sfixed64 start_time = 1;
+
+	// End time (inclusive) in nanoseconds relative to the Unix epoch.
+	sfixed64 end_time = 2;
+}
+
+// Base message for all stream data.
+message StreamData {
+
+	// 1 - for a request completion if we decide we need one
+	reserved 1;
+
+	oneof data {
+		
+		// Session JSON update. The format must match the web service specification.
+		// This is the first message downloaded by a new web socket connection, so it is not possible
+		// to establish a stream session until at least one Session JSON update has been streamed.
+		// If collections of details, laps, config bindings etc are null - not empty - it is assumed
+		// they are unavailable and they will be merged in from the Session JSON downloaded from the service.
+		string session_json = 2;
+
+		// Time range update.
+		// This needs to be sent regularly so that the data viewer can pan smoothly to show
+		// activity, even if no data subscription has been applied.
+		// The overall session time range is expanded to cover this update.
+		StreamTimeRange time_range = 3;
+
+		// Timestamped Data
+		rta.model.data.TimestampedData timestamped_data = 4;
+
+		// Periodic Data
+		rta.model.data.PeriodicData periodic_data = 5;
+
+		// Row Data
+		rta.model.data.RowData row_data = 6;
+
+		// Event
+		rta.model.data.Event event = 7;
+
+	}
+
+}
+
+// Burst of StreamData to improve transfer efficiency.
+message StreamDataBurst {
+	// One or more StreamData.
+	repeated StreamData data = 1;
+}

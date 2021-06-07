@@ -1,0 +1,134 @@
+site_name: 'ATLAS Integration Guide'
+site_description: 'F1-grade engineering telemetry tooling'
+docs_dir: 'docs'
+repo_url: https://github.com/mat-docs/RTA.Site
+
+nav:
+  - Home:
+    - ATLAS 10:                   index.md
+    - Features:                   home/features.md
+    - System Requirements:        home/sysreqs.md
+  - Integration Overview:
+    - Introduction:               integration/index.md
+    - Architectures:              integration/architectures.md
+    - Data Services:              integration/data-services.md
+    - Sessions:                   integration/sessions.md
+    - Configuration:              integration/configuration.md
+  - Developer Guide:
+    - Overview:                   devguide/index.md
+    - Tutorials:
+      - Prerequisites:            devguide/tutorials/prerequisites.md
+      - '01: Quick-Start':
+        - Walkthrough:            devguide/tutorials/quick-start/index.md
+        - Review:                 devguide/tutorials/quick-start/review.md
+      - '02: Microservices':
+        - Walkthrough:            devguide/tutorials/microservices/index.md
+        - Review:                 devguide/tutorials/microservices/review.md
+      - '03: InfluxDB Data Adapter':
+        - Walkthrough:            devguide/tutorials/influx/index.md
+        - Review:                 devguide/tutorials/influx/review.md
+      - '04: Live Streaming':
+        - Walkthrough:            devguide/tutorials/live/index.md
+        - Review:                 devguide/tutorials/live/review.md
+      - '05: Custom Data Adapter':
+        - Walkthrough:            devguide/tutorials/data-adapter/index.md
+        - Review:                 devguide/tutorials/data-adapter/review.md
+    - Working with Sessions:
+      - Session Basics:           devguide/sessions/index.md
+      - Session Model:            devguide/sessions/model.md
+      - Session Service:          devguide/sessions/session-service.md
+      - Relationships:            devguide/sessions/relationships.md
+      - Listing and Queries:      devguide/sessions/queries.md
+      - Folders:                  devguide/sessions/folders.md
+      - Session Metamodel:        devguide/sessions/metamodel.md
+      - Data Bindings:            devguide/sessions/data-bindings.md
+    - Working with Configuration:
+      - Configuration Basics:     devguide/configuration/index.md
+      - Channels and Parameters:  devguide/configuration/channels-parameters.md
+      - Parameter Groups (tree):  devguide/configuration/parameter-groups.md
+      - Conversions:              devguide/configuration/conversions.md
+      - Event Definitions:        devguide/configuration/event-defs.md
+      - Serializing JSON/FFC:     devguide/configuration/serializing.md
+      - Publishing to the Config Service: devguide/configuration/publishing.md
+    - Working with Data:
+      - Data Basics:              devguide/data/index.md
+      - Schema Mappings:          devguide/data/schema-mappings.md
+      - Chunks:                   devguide/data/chunks.md
+    - Live-Streaming Data:
+      - Live-Streaming Basics:    devguide/live/index.md
+      - Web Socket Protocol:      devguide/live/websockets.md
+      - Streaming to Redis:       devguide/live/redis.md
+    - Protobuf Schemas:
+      - Overview:                 devguide/protobuf/index.md
+      - model_data.proto:         devguide/protobuf/model_data.md
+      - net_chunks.proto:         devguide/protobuf/net_chunks.md
+      - net_stream.proto:         devguide/protobuf/net_stream.md
+    - Useful Utilities:           devguide/utilities.md
+    - FAQ:                        devguide/faq.md
+  - Services Reference:
+    - Overview:                   services/index.md
+    - Server:
+      - README:                   services/rta-server/README.md
+      - GRPC APIs:                services/rta-server/grpc.md
+    - Session Service:    
+      - README:                   services/rta-sessionsvc/README.md
+      - GRPC API:                 services/rta-sessionsvc/grpc.md
+    - Config Service:   
+      - README:                   services/rta-configsvc/README.md
+      - GRPC API:                 services/rta-configsvc/grpc.md
+    - Data Service:   
+      - README:                   services/rta-datasvc/README.md
+      - GRPC API:                 services/rta-datasvc/grpc.md
+    - Gateway Service:    
+      - README:                   services/rta-gatewaysvc/README.md
+    - Stream Service:   
+      - README:                   services/rta-streamsvc/README.md
+    - Schema Mapping Service:
+      - README:                   services/rta-schemamappingsvc/README.md
+      - GRPC API:                 services/rta-schemamappingsvc/grpc.md
+    - Influx Data Service:
+      - README:                   services/rta-influxdatasvc/README.md
+  - Downloads:
+    - Toolkit Services:           downloads/services.md
+    - NuGet Packages:             downloads/nuget.md
+    - Code Samples:               downloads/samples.md
+  - REST API:                     api/index.md
+
+theme:
+  name: 'material'
+  custom_dir: overrides
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.tabs
+    - toc.integrate
+    - navigation.instant
+
+extra_css:
+  - stylesheets/extra.css
+
+copyright: Copyright &copy; 2021 McLaren Applied Ltd.
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - codehilite
+  - def_list
+  - footnotes
+  - toc:
+      permalink: "#"
+  - meta
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.tabbed
+  - pymdownx.snippets:
+      base_path: docs
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true

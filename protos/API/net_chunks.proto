@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package rta.model.net.chunks;
+
+option csharp_namespace = "MAT.OCS.RTA.Model.Net.Chunks";
+
+// Header for wire transfer of chunks with the 'application/vnd.mat.protobuf+chunked' media type.
+message ChunkTransferHeader {
+
+	// Chunk start time (ns since unix epoch) compared to the previous chunk.
+	sint64 chunk_start_time_delta = 1;
+
+	// Chunk duration (nanoseconds) compared to the previous chunk duration.
+	// Equal-sized chunks will result in all zeros except for the first chunk, but
+	// chunks can also be variable size - in which case this will be negative.
+	sint64 chunk_duration_delta = 2;
+
+	// Channel ids, if applicable.
+	repeated uint32 channel_ids = 3;
+
+	// Compression mode difference compared to the previous chunk.
+	// Chunks are usually compressed-alike so in practice should always be zero after the first chunk.
+	int32 compression_delta = 4;
+
+	// Uncompressed length of payload.
+	// This indicates the buffer size that should be allocated when unpacking the chunk data.
+	int32 unpacked_length = 5;
+
+	// Compressed length of payload.
+	// This indicates the length of the data following the header on the wire.
+	int32 packed_length = 6;
+
+}

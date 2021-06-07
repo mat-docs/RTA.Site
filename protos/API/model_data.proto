@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package rta.model.data;
+
+option csharp_namespace = "MAT.OCS.RTA.Model.Data";
+
+// Point-in-time event.
+message Event {
+	// Unique event definition id.
+	// This should correspond to an Event Definition in configuration.
+	int32 event_definition_id = 1;
+
+	// App name/identifier as a qualifier in case there is ambiguity.
+	string app_name = 2;
+
+	// Timestamp, in nanoseconds relative to the session epoch.
+	sfixed64 timestamp = 3;
+
+	// Text representation of the event (may be empty).
+	// If empty, this will be substituted for formatted raw_data
+	string status_text = 4;
+
+	// Raw data values associated with the event.
+	// The corresponding Event Definition specifies conversions
+	// to be applied to this data to produce formatted status_text (if needed).
+	repeated double raw_data = 5;
+}
+
+// Row data (memory snapshot; timestamp is approximate).
+// This is essentially a packed buffer covering multiple channels.
+message RowData {
+	// Channel Ids, in the order they are present in the buffer.
+	repeated uint32 channel_ids = 1;
+
+	// Timestamp, in nanoseconds relative to the Unix epoch.
+	sfixed64 timestamp = 2;
+
+	// Buffer of samples.
+	// The encoding may vary by channel, as defined in configuration.
+	bytes buffer = 3;
+}
+
+// Periodic (sampled) data at a specified interval.
+message PeriodicData {
+	// Channel Id.
+	uint32 channel_id = 1;
+
+	// Start timestamp, in nanoseconds relative to the Unix epoch.
+	sfixed64 start_timestamp = 2;
+
+	// Interval between samples (ns).
+	int64 interval = 3;
+	
+	// Number of samples in the buffer.
+	int32 samples = 4;
+
+	// Buffer of samples. Every sample must be encoded to alike and to the same width
+	// so the buffer is splittable; the rest of the encoding is defined in configuration.
+	bytes buffer = 5;
+}
+
+// Timestamped samples (also covering Synchro data from TAG ECUs).
+// Timestamps are delta-compressed
+message TimestampedData {
+	// Channel Id.
+	uint32 channel_id = 1;
+
+	// Start timestamp, in nanoseconds relative to the Unix epoch.
+	sfixed64 start_timestamp = 2;
+
+	// Multiplier (ns) to apply to timestamp deltas.
+	int64 timestamp_deltas_scale = 3;
+
+	// Timestamp deltas (ns / multiplier) for each sample relative to the previous one.
+	// The first delta is always zero.
+	// If the interval is constant, all subsequent deltas should be identical.
+	// If the multiplier were set to the interval, the subsequent deltas would all be 1.
+	// This scheme allows for efficient variable-length encoding.
+	repeated int64 timestamp_deltas = 4;
+
+	// Buffer of samples. Every sample must be encoded to alike and to the same width
+	// so the buffer is splittable; the rest of the encoding is defined in config.
+	bytes buffer = 5;
+}
+
+// Container for Event encoding.
+message EventsList {
+	// Zero or more events.
+	repeated Event events = 1;
+}
+
+// Container for RowData encoding.
+message RowDataList {
+	// Zero or more row data items.
+	repeated RowData row_data = 1;
+}
+
+// Container for PeriodicData encoding.
+message PeriodicDataList {
+	// Zero or more periodic data items.
+	repeated PeriodicData periodic_data = 1;
+}
+
+// Container for TimestampedData encoding.
+message TimestampedDataList {
+	// Zero or more timestamped data items.
+	repeated TimestampedData timestamped_data = 1;
+}

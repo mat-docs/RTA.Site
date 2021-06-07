@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package rta.toolkit.api.config_service;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "MAT.OCS.RTA.Toolkit.API.ConfigService";
+
+message ConfigStreamMessage {
+	oneof type {
+		ConfigInfo info = 1;
+		bytes piece = 2;
+	}
+
+	message ConfigInfo {
+		string identifier = 1;
+		string content_type = 2;
+	}
+}
+
+message PutConfigRequest {
+	string identifier = 1;
+	string content_type = 2;
+	bytes data = 3;
+}
+
+message HasConfigRequest {
+	string identifier = 1;
+}
+
+message GetConfigRequest {
+	string identifier = 1;
+}
+
+message GetConfigResponse {
+	string content_type = 1;
+	bytes data = 2;
+}
+
+message DeleteConfigRequest {
+	string identifier = 1;
+}
+
+service ConfigStore {
+
+	rpc PutConfig(PutConfigRequest)
+	returns (google.protobuf.Empty);
+	
+	rpc PutConfigStream(stream ConfigStreamMessage)
+	returns (google.protobuf.Empty);
+
+	rpc HasConfig(HasConfigRequest)
+	returns (google.protobuf.BoolValue);
+
+	rpc GetConfig(GetConfigRequest)
+	returns (GetConfigResponse);
+
+	rpc GetConfigStream(GetConfigRequest)
+	returns (stream ConfigStreamMessage);
+
+	rpc DeleteConfig(DeleteConfigRequest)
+	returns (google.protobuf.Empty);
+
+}
