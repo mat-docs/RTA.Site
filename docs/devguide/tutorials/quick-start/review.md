@@ -21,16 +21,16 @@ The project imports [NuGet Packages](../../../downloads/nuget.md) from the McLar
 
 This package provides everything needed to write a tool that communicates with the [Toolkit Services](../../../services/index.md).
 
-Pre-compiled GRPC clients are included. You can [compile your own](https://developers.google.com/protocol-buffers) from the GRPC API schemas:
+Pre-compiled gRPC clients are included. You can [compile your own](https://developers.google.com/protocol-buffers) from the gRPC API schemas:
 
-* [Session Service GRPC API](../../../services/rta-sessionsvc/grpc.md)
-* [Config Service GRPC API](../../../services/rta-configsvc/grpc.md)
-* [Data Service GRPC API](../../../services/rta-datasvc/grpc.md)
-* [Schema Mapping Service GRPC API](../../../services/rta-schemamappingsvc/grpc.md)
+* [Session Service gRPC API](../../../services/rta-sessionsvc/grpc.md)
+* [Config Service gRPC API](../../../services/rta-configsvc/grpc.md)
+* [Data Service gRPC API](../../../services/rta-datasvc/grpc.md)
+* [Schema Mapping Service gRPC API](../../../services/rta-schemamappingsvc/grpc.md)
 
-## Configuring GRPC Clients
+## Configuring gRPC Clients
 
-A GRPC network connection is called a _Channel_ in most languages:
+A gRPC network connection is called a _Channel_ in most languages:
 
 ```c#
 using var channel = GrpcChannel.ForAddress("http://localhost:8082");
@@ -40,7 +40,7 @@ The `using` keyword means the channel will get cleaned up when it goes out of sc
 
 Creating channels involves setting up a new network connection, so they should be reused.
 
-The clients can share the same channel if the same endpoint is offering multiple GRPC services (like [RTA Server](../../../services/rta-server/grpc.md)):
+The clients can share the same channel if the same endpoint is offering multiple gRPC services (like [RTA Server](../../../services/rta-server/grpc.md)):
 
 ```c#
 var sessionClient = new SessionStore.SessionStoreClient(channel);
@@ -50,7 +50,7 @@ var dataClient = new DataWriter.DataWriterClient(channel);
 
 !!! tip
 
-    Prior to .NET 5.0, there is an extra step to communicate with a GRPC service without TLS:
+    Prior to .NET 5.0, there is an extra step to communicate with a gRPC service without TLS:
 
     [https://docs.microsoft.com/en-us/aspnet/core/grpc/troubleshoot?view=aspnetcore-5.0#call-insecure-grpc-services-with-net-core-client](https://docs.microsoft.com/en-us/aspnet/core/grpc/troubleshoot?view=aspnetcore-5.0#call-insecure-grpc-services-with-net-core-client)
 
@@ -104,7 +104,7 @@ await requestStream.WriteAsync(new WriteDataStreamRequest
 
     A burst of data should contain up 128 samples.
 
-    Note that a GRPC message cannot exceed 4 MiB unless all clients and services are configured for a higher limit.
+    Note that a gRPC message cannot exceed 4 MiB unless all clients and services are configured for a higher limit.
 
 ## Configuration
 
@@ -336,7 +336,7 @@ The additional properties reflect the state of the session after adding data:
     });
     ```
 
-    In this GRPC call:
+    In this gRPC call:
 
     * `Identity` specifies the session, and is the same as the `dataIdentity` for RTA Server
     * `CreateIfNotExists` is used only if the session is not already present

@@ -1,6 +1,6 @@
 # Publishing to the Toolkit Config Service
 
-The [GRPC API](../../services/rta-configsvc/grpc.md) provides two service calls to publish configuration:
+The [gRPC API](../../services/rta-configsvc/grpc.md) provides two service calls to publish configuration:
 
 * `PutConfig` &mdash; works for configs up to about 4 MiB
 * `PutConfigStream` &mdash; is more complex to use, but works with configs of any size

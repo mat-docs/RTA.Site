@@ -8,7 +8,7 @@ In this tutorial you:
 
 * Update the [Microservices demo](../microservices/index.md) to add [InfluxDB](https://www.influxdata.com/products/influxdb/) with the RTA [Influx Data Service](../../../services/rta-influxdatasvc/README.md) and supporting [Schema Mapping Service](../../../services/rta-schemamappingsvc/README.md)
 * Ingest some sample data into [InfluxDB](https://www.influxdata.com/products/influxdb/)
-* Call the other services using GRPC to describe sessions
+* Call the other services using gRPC to describe sessions
 * Test the deployment with ATLAS
 
 !!! tip
@@ -270,7 +270,7 @@ Using a web browser, make sure all these health endpoints are reporting `Healthy
 
 If a service says it is `Unhealthy`, the console log output should say why.
 
-### GRPC
+### gRPC
 
 Using [grpcui](https://github.com/fullstorydev/grpcui/releases) from a terminal:
 
@@ -278,7 +278,7 @@ Using [grpcui](https://github.com/fullstorydev/grpcui/releases) from a terminal:
 grpcui -plaintext localhost:2682
 ```
 
-This will check that the [Schema Mapping Service GRPC API](../../../services/rta-schemamappingsvc/grpc.md) is available.
+This will check that the [Schema Mapping Service gRPC API](../../../services/rta-schemamappingsvc/grpc.md) is available.
 
 ## Step 4: Run the Demo
 

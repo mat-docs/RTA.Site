@@ -1,4 +1,4 @@
-# GRPC APIs
+# gRPC APIs
 
 `rta-server` packages up three capabilities into a single process:
 
@@ -6,11 +6,11 @@
 * [Config Service](../rta-configsvc/README.md)
 * [Data Service](../rta-datasvc/README.md)
 
-GRPC interfaces are enabled by the `EnableGprc` option (default: `true`) and present the same API as the individual toolkit services.
+gRPC interfaces are enabled by the `EnableGprc` option (default: `true`) and present the same API as the individual toolkit services.
 
 === "Session Service API"
 
-    _See also: [Session Service GRPC API](../rta-sessionsvc/grpc.md)_
+    _See also: [Session Service gRPC API](../rta-sessionsvc/grpc.md)_
 
     ``` protobuf
     --8<--
@@ -20,7 +20,7 @@ GRPC interfaces are enabled by the `EnableGprc` option (default: `true`) and pre
 
 === "Config Service API"
 
-    _See also: [Config Service GRPC API](../rta-configsvc/grpc.md)_
+    _See also: [Config Service gRPC API](../rta-configsvc/grpc.md)_
 
     ``` protobuf
     --8<--
@@ -30,7 +30,7 @@ GRPC interfaces are enabled by the `EnableGprc` option (default: `true`) and pre
 
 === "Data Service API"
 
-    _See also: [Data Service GRPC API](../rta-datasvc/grpc.md)_
+    _See also: [Data Service gRPC API](../rta-datasvc/grpc.md)_
 
     The `DataWriter` service is enabled by the `EnableDataWriter` service option (default: `true`).
 

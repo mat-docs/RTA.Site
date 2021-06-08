@@ -268,7 +268,7 @@ Perform the same checks on the other three services:
     * Does the [Config Service (rta-configsvc)](../../../services/rta-configsvc/README.md) have the same volume/folder mounted as used for the [Quick-Start Tutorial](../quick-start/index.md)?
     * Does the [Data Service (rta-datasvc)](../../../services/rta-datasvc/README.md) have the same volume/folder mounted as used for the [Quick-Start Tutorial](../quick-start/index.md)?
 
-### GRPC
+### gRPC
 
 Using [grpcui](https://github.com/fullstorydev/grpcui/releases) from a terminal:
 
@@ -276,15 +276,15 @@ Using [grpcui](https://github.com/fullstorydev/grpcui/releases) from a terminal:
 grpcui -plaintext localhost:2652
 ```
 
-If successful, this will open a web page where you can browse and interact with the [Session Service GRPC API](../../../services/rta-sessionsvc/grpc.md) &mdash; which will be useful later.
+If successful, this will open a web page where you can browse and interact with the [Session Service gRPC API](../../../services/rta-sessionsvc/grpc.md) &mdash; which will be useful later.
 
-Do this for all the services except the Gateway Service (which does not have a GRPC API):
+Do this for all the services except the Gateway Service (which does not have a gRPC API):
 
-| Service        | GRPC Port | API                                                  |
+| Service        | gRPC Port | API                                                  |
 |----------------|-----------|------------------------------------------------------|
-| rta-sessionsvc | 2652      | [GRPC API](../../../services/rta-sessionsvc/grpc.md) |
-| rta-configsvc  | 2662      | [GRPC API](../../../services/rta-configsvc/grpc.md)  |
-| rta-datasvc    | 2672      | [GRPC API](../../../services/rta-datasvc/grpc.md)    |
+| rta-sessionsvc | 2652      | [gRPC API](../../../services/rta-sessionsvc/grpc.md) |
+| rta-configsvc  | 2662      | [gRPC API](../../../services/rta-configsvc/grpc.md)  |
+| rta-datasvc    | 2672      | [gRPC API](../../../services/rta-datasvc/grpc.md)    |
 
 ??? notes "Troubleshooting"
 
@@ -375,7 +375,7 @@ You should see the data you previously created.
 
 ## Step 5: Modify the Demo
 
-### Update the GRPC channels
+### Update the gRPC channels
 
 In the `RTA.Examples.Loader` project, change this code:
 

@@ -5,7 +5,7 @@ This service is part of the RTA Toolkit Services suite.
 It bundles together functionality from the **Session Service**, **Config Service**, **Data Service** and **Stream Service** for development convenience.
 We recommend against using this service in production except for small private deployments.
 
-The service exposes internal GRPC interfaces to manage sessions, configuration and data, and an outward-facing REST interface to be exposed to _ATLAS_ users.
+The service exposes internal gRPC interfaces to manage sessions, configuration and data, and an outward-facing REST interface to be exposed to _ATLAS_ users.
 
 It is available as a binary for Windows and Linux, and as a Docker image.
 
@@ -56,7 +56,7 @@ rta-server --PostgresConnectionString "Server=mydbhost;Port=5432;Database=postgr
 |------|----------|-------------------------------------------------------------------------------|
 | 8080 | HTTP     | Expose to ATLAS via a TLS-enabled ingress unless using for local development  |
 | 8081 | HTTPS    | Expose to ATLAS directly or via an ingress unless using for local development |
-| 8082 | GRPC     | Expose within local environment                                               |
+| 8082 | gRPC     | Expose within local environment                                               |
 
 ## Monitoring
 
@@ -92,8 +92,8 @@ For example, `Category:Item` is `RTA_CATEGORY__ITEM`.
 | `AwsS3​ConfigsBucket`        | S3 bucket name for configs                                                   | if `Store=​Aws`  |                |
 | `AwsS3​DataBucket`           | S3 bucket name for data                                                      | if `Store=​Aws`  |                |
 | `Aws​DynamoDataTable`        | DynamoDB table name for data indexes                                         | if `Store=​Aws`  |                |
-| `EnableDataWriter`          | Enables the service for data _write_ access via GRPC; `true` or `false`      | no              | `true`         |
-| `EnableGrpc`                | Enables GRPC services to manage sessions, config and data; `true` or `false` | no              | `true`         |     
+| `EnableDataWriter`          | Enables the service for data _write_ access via gRPC; `true` or `false`      | no              | `true`         |
+| `EnableGrpc`                | Enables gRPC services to manage sessions, config and data; `true` or `false` | no              | `true`         |     
 
 Memory Management options are also available. Refer to the **Data Service** README for details.
 

@@ -118,7 +118,7 @@ These two elements are also used in the [Data Bindings](../sessions/data-binding
 
 !!! info
 
-    Refer to the [Schema Mapping Service GRPC API](../../services/rta-schemamappingsvc/grpc.md) for all the available methods.
+    Refer to the [Schema Mapping Service gRPC API](../../services/rta-schemamappingsvc/grpc.md) for all the available methods.
 
 Publishing a Schema Mapping:
 

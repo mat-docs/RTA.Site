@@ -4,7 +4,7 @@ This service is part of the RTA Toolkit Services suite.
 
 It provides a Web Socket for streaming session updates so that McLaren ATLAS can display live data.
 
-It reads data from [Redis](https://redis.io/). There is no GRPC interface, and the outward-facing Web Socket interface should be exposed to users either directly or via the **Gateway Service**.
+It reads data from [Redis](https://redis.io/). There is no gRPC interface, and the outward-facing Web Socket interface should be exposed to users either directly or via the **Gateway Service**.
 
 This service is available as a binary for Windows and Linux, and as a Docker image.
 

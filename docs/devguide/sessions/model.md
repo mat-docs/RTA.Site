@@ -53,7 +53,7 @@ This is the representation in the [OpenAPI specification](../../api/index.md) an
         | `#!json "failed"`    | 28      | _Closed_ without receiving all data as the result of a fault                                     |
         | `#!json "abandoned"` | 44      | _Closed_ manually or by a watchdog after being left idle too long (e.g. due to an upstream crash)|
 
-        The numeric values are part of the RTA specification. They are not used in JSON but are seen in the GRPC API.  
+        The numeric values are part of the RTA specification. They are not used in JSON but are seen in the gRPC API.  
         Values are chosen so that all closed states are &gt;= `#!json "closed"` or &gt;= 4 &mdash; and bitwise comparison is also supported.
 
 `#!json "timestamp": "2021-05-06T18:58:56.20289+01:00"`

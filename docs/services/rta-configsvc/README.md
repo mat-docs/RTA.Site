@@ -5,7 +5,7 @@ This service is part of the RTA Toolkit Services suite.
 It provides a repository for _configuration_ describing telemetry parameters, channels, events, etc. 
 These are downloaded by _McLaren ATLAS_ as part of loading a session.
 
-It exposes a GRPC interface to define and manage sessions from your environment, and an outward-facing REST interface to be exposed to users via the **Gateway Service**.
+It exposes a gRPC interface to define and manage sessions from your environment, and an outward-facing REST interface to be exposed to users via the **Gateway Service**.
 
 This service is available as a binary for Windows and Linux, and as a Docker image.
 
@@ -50,7 +50,7 @@ rta-configsvc --Store Aws --AwsS3Bucket my-config-bucket
 |------|------------|-------------------------------------|
 | 2660 | HTTP       | Expose to ATLAS via Gateway Service |
 | 2661 | HTTPS      | Expose to ATLAS via Gateway Service |
-| 2662 | GRPC       | Expose within local environment     |
+| 2662 | gRPC       | Expose within local environment     |
 
 ## Monitoring
 

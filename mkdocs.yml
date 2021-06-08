@@ -69,23 +69,23 @@ nav:
     - Overview:                   services/index.md
     - Server:
       - README:                   services/rta-server/README.md
-      - GRPC APIs:                services/rta-server/grpc.md
+      - gRPC APIs:                services/rta-server/grpc.md
     - Session Service:    
       - README:                   services/rta-sessionsvc/README.md
-      - GRPC API:                 services/rta-sessionsvc/grpc.md
+      - gRPC API:                 services/rta-sessionsvc/grpc.md
     - Config Service:   
       - README:                   services/rta-configsvc/README.md
-      - GRPC API:                 services/rta-configsvc/grpc.md
+      - gRPC API:                 services/rta-configsvc/grpc.md
     - Data Service:   
       - README:                   services/rta-datasvc/README.md
-      - GRPC API:                 services/rta-datasvc/grpc.md
+      - gRPC API:                 services/rta-datasvc/grpc.md
     - Gateway Service:    
       - README:                   services/rta-gatewaysvc/README.md
     - Stream Service:   
       - README:                   services/rta-streamsvc/README.md
     - Schema Mapping Service:
       - README:                   services/rta-schemamappingsvc/README.md
-      - GRPC API:                 services/rta-schemamappingsvc/grpc.md
+      - gRPC API:                 services/rta-schemamappingsvc/grpc.md
     - Influx Data Service:
       - README:                   services/rta-influxdatasvc/README.md
   - Downloads:

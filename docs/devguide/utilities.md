@@ -1,10 +1,10 @@
 # Useful Utilities
 
-## GRPC UI
+## gRPC UI
 
-[GRPC UI](https://github.com/fullstorydev/grpcui) is exceptionally useful for exploring the [Toolkit Services](../services/index.md).
+[gRPC UI](https://github.com/fullstorydev/grpcui) is exceptionally useful for exploring the [Toolkit Services](../services/index.md).
 
-Each service is self-describing, so you only need to connect to the service on the GRPC port, and create calls using a web browser.
+Each service is self-describing, so you only need to connect to the service on the gRPC port, and create calls using a web browser.
 
 For example, connecting to the [Session Service](../services/rta-sessionsvc/README.md) on the default port:
 

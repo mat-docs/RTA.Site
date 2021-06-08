@@ -12,7 +12,7 @@ RTA models size/performance-sensitive data in [Google Protocol Buffers](https://
 
     These achieve even better performance than Protobuf by using zero-copy data structures instead of techniques like variable-length integer compression. The principle is that the data serialization is larger, but still amenable to fast compression (e.g. with [LZ4](https://github.com/lz4/lz4)).
 
-    Protobuf was chosen because it has a great mix of features, maturity, usability, RPC support, language support, and adoption &mdash; combined with good performance. Microsoft's investment in making GRPC a first-class citizen in Visual Studio and ASP.NET Core has been a major deciding factor.
+    Protobuf was chosen because it has a great mix of features, maturity, usability, RPC support, language support, and adoption &mdash; combined with good performance. Microsoft's investment in making gRPC a first-class citizen in Visual Studio and ASP.NET Core has been a major deciding factor.
 
     Memory allocation _is_ still a noticeable factor on a profiler &mdash; but typically only when all other sources of allocation and inefficiency have been eliminated.
 

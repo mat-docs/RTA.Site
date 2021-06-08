@@ -1,6 +1,6 @@
 # Overview
 
-This section is a detailed guide to the [RTA API](../api/index.md), [Toolkit Services](../services/index.md) and their [GRPC](https://grpc.io/) APIs.
+This section is a detailed guide to the [RTA API](../api/index.md), [Toolkit Services](../services/index.md) and their [gRPC](https://grpc.io/) APIs.
 
 !!! tip
 

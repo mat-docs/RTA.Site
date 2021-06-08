@@ -1,4 +1,4 @@
-# GRPC API
+# gRPC API
 
 ``` protobuf
 --8<--

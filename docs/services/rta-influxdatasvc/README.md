@@ -138,7 +138,7 @@ rta-influxdatasvc --DataSource mydata --SchemaMappingGrpcUri "http://myhost:2682
 | 2690 | HTTP       | Expose to ATLAS via Gateway Service |
 | 2691 | HTTPS      | Expose to ATLAS via Gateway Service |
 
-There is no GRPC interface, and you cannot write data using this service.
+There is no gRPC interface, and you cannot write data using this service.
 
 ## Monitoring
 
@@ -168,7 +168,7 @@ For example, `Category:Item` is `RTA_CATEGORY__ITEM`.
 | Option                      | Value                                                                                                                                       | Required     | Default   |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|--------------|-----------|
 | `DataSource`                | Namespace for lookups to the **Schema Mapping Service**.\ Should match the token used with the **Session Service** and **Gateway Service**. | yes          |           |
-| `SchemaMappingGrpcUri`      | URI to the **Schema Mapping Service** GRPC interface &mdash; e.g. `http://localhost:2682/`                                                  | yes          |           |
+| `SchemaMappingGrpcUri`      | URI to the **Schema Mapping Service** gRPC interface &mdash; e.g. `http://localhost:2682/`                                                  | yes          |           |
 | `InfluxUri`                 | URI to _InfluxDB_ &mdash; e.g. `http://localhost:8086/`                                                                                     | yes          |           |
 | `InfluxHealthCheckPath`     | Path to use for health checks against _InfluxDB_. For versions prior than 1.8, use `/ping`.                                                 | no           | `/health` |
 | `MaxFrequency`              | Approximate maximum frequency of data, for performance optimization.                                                                        | no           | `100`     |

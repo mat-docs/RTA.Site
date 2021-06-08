@@ -4,7 +4,7 @@ This service is part of the RTA Toolkit Services suite.
 
 It provides compact, high-performance telemetry storage, backed by either a file system or [Amazon S3](https://aws.amazon.com/s3/) and [DynamoDB](https://aws.amazon.com/dynamodb/). It handles backfill (late samples and channels) and copes with sample rates from 0.001 Hz to 1 MHz with stable memory use and back-pressure control.
 
-It exposes a GRPC interface to write or read data from your environment, and an outward-facing REST interface to be exposed to users via the **Gateway Service**.
+It exposes a gRPC interface to write or read data from your environment, and an outward-facing REST interface to be exposed to users via the **Gateway Service**.
 
 This service is intended to be used alongside the **Session Service**, **Config Service**, **Stream Service** (if live updates are required) and **Gateway Service** as a reverse proxy to bring the capabilties together.
 
@@ -93,7 +93,7 @@ rta-datasvc --Store Aws --AwsS3Bucket mydatabucket --AwsDynamoTable mydatatable
 |------|------------|-------------------------------------|
 | 2670 | HTTP       | Expose to ATLAS via Gateway Service |
 | 2671 | HTTPS      | Expose to ATLAS via Gateway Service |
-| 2672 | GRPC       | Expose within local environment     |
+| 2672 | gRPC       | Expose within local environment     |
 
 ## Monitoring
 
@@ -122,8 +122,8 @@ For example, `Category:Item` is `RTA_CATEGORY__ITEM`.
 
 | Option           | Value                                                                                | Required        | Default |
 |------------------|--------------------------------------------------------------------------------------|-----------------|---------|
-| `EnableRead`     | Enables the service for _read_ access via GRPC or REST; `true` or `false`            | no              | `true`  |      
-| `EnableWrite`    | Enables the service for _write_ access via GRPC; `true` or `false`                   | no              | `true`  |     
+| `EnableRead`     | Enables the service for _read_ access via gRPC or REST; `true` or `false`            | no              | `true`  |      
+| `EnableWrite`    | Enables the service for _write_ access via gRPC; `true` or `false`                   | no              | `true`  |     
 | `Store`          | `File` or `Aws`                                                                      | yes             |         |      
 | `FilePath`       | Path to data volume                                                                  | if `Store=​File` |         |      
 | `AwsS3Bucket`    | S3 bucket name where the data is stored                                              | if `Store=​Aws`  |         |

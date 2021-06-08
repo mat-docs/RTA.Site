@@ -3,7 +3,7 @@
 ## Q: Do I need to write my integration in C#?
 
 No &mdash; the [API Specification](../api/index.md) is language-neutral.  
-The [Toolkit Services](../services/index.md) communicate via [GRPC](https://grpc.io/), so they are also language-neutral.
+The [Toolkit Services](../services/index.md) communicate via [gRPC](https://grpc.io/), so they are also language-neutral.
 
 However, we do provide [NuGet Packages](../downloads/nuget.md) that will definitely speed up your development.  
 They provide:
@@ -11,7 +11,7 @@ They provide:
 * Model classes to help with JSON serialization
 * REST API stubs and service interfaces to help write back-end services
 * ASP.NET implementations of the network protocol &mdash; e.g. transferring data chunks
-* Pre-compiled GRPC clients for the services
+* Pre-compiled gRPC clients for the services
 
 ## Q: Do I need to use the [Toolkit Services](../services/index.md)?
 
@@ -25,7 +25,7 @@ The RTA session model can be awkward to retrofit into an existing environment, s
 * describing relationships between sessions
 * providing extra indirection to compose data from different services
 
-Adding self-contained microservices and some GRPC integration should be significantly less intrusive for your data pipeline.
+Adding self-contained microservices and some gRPC integration should be significantly less intrusive for your data pipeline.
 
 You _can_ probably achieve a more seamless integration by implementing the [RTA API Specification](../api/index.md) directly against stores in your data environment, which will reduce data duplication and synchronization logic. We recommend starting out with the implementation toolkit and reviewing after initial integration is complete.
 

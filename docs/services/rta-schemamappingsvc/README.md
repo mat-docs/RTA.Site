@@ -12,7 +12,7 @@ This service provides a simple, standard way to store that _Schema Mapping_ and 
     The _Config Service_ is similar, but only describes the RTA domain model.  
     The _Schema Mapping Service_ describes the relationship with the source schema, which is specific to the data storage technology.
 
-It exposes a GRPC interface to define and query the _Schema Mappings_.
+It exposes a gRPC interface to define and query the _Schema Mappings_.
 Aside from metrics and health checks, there is no outward-facing REST interface, and this service is strictly optional.
 
 This service is available as a binary for Windows and Linux, and as a Docker image.
@@ -57,7 +57,7 @@ rta-schemamappingsvc --Store Aws --AwsS3Bucket my-schema-mappings-bucket
 | Port | Protocol   | Usage                                                              |
 |------|------------|--------------------------------------------------------------------|
 | 2680 | HTTP       | Expose within local environment for health checks and metrics only |
-| 2682 | GRPC       | Expose within local environment                                    |
+| 2682 | gRPC       | Expose within local environment                                    |
 
 ## Monitoring
 

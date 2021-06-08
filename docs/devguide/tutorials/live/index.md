@@ -95,9 +95,9 @@ Using a web browser, make sure all these health endpoints are reporting `Healthy
 
 If a service says it is `Unhealthy`, the console log output should say why.
 
-### GRPC
+### gRPC
 
-The [Stream Service](../../../services/rta-streamsvc/README.md) does not introduce any new GRPC interfaces to check.
+The [Stream Service](../../../services/rta-streamsvc/README.md) does not introduce any new gRPC interfaces to check.
 
 ## Step 4: Run the Demo
 

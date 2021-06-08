@@ -4,7 +4,7 @@ This service is part of the RTA Toolkit Services suite.
 
 It manages a [PostgreSQL](https://www.postgresql.org/) database of _sessions_, which are data sets &mdash; like files &mdash; that can be opened in _McLaren ATLAS_.
 
-It exposes a GRPC interface to define and manage sessions from your environment, and an outward-facing REST interface to be exposed to users via the **Gateway Service**.
+It exposes a gRPC interface to define and manage sessions from your environment, and an outward-facing REST interface to be exposed to users via the **Gateway Service**.
 
 This service is available as a binary for Windows and Linux, and as a Docker image.
 
@@ -49,7 +49,7 @@ Restart any running services after applying the change.
 |------|------------|-------------------------------------|
 | 2650 | HTTP       | Expose to ATLAS via Gateway Service |
 | 2651 | HTTPS      | Expose to ATLAS via Gateway Service |
-| 2652 | GRPC       | Expose within local environment     |
+| 2652 | gRPC       | Expose within local environment     |
 
 ## Monitoring
 

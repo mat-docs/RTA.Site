@@ -137,7 +137,7 @@ This results in:
          |
          +-- Model Session
 
-To create these relationships using the [GRPC API](../../services/rta-sessionsvc/grpc.md):
+To create these relationships using the [gRPC API](../../services/rta-sessionsvc/grpc.md):
 
 === "C# Sample"
 
@@ -250,7 +250,7 @@ To create these relationships using the [GRPC API](../../services/rta-sessionsvc
         Notice that the list only returns the top-level session, with references to alternates and children.
 
         This is the correct behaviour and the only option for the REST API.  
-        The Session Service GRPC API does offer an `include_sub_sessions` option to list all sessions.
+        The Session Service gRPC API does offer an `include_sub_sessions` option to list all sessions.
 
     The client lazily resolves the relationships by requesting the child or alternate identities:
 

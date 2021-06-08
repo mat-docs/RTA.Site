@@ -61,7 +61,7 @@ Instead of copying the data with a loader, you can index it in place and deploy 
 
 The diagrams above show data being indexed after it has arrived. But this can be integrated into existing ingest pipelines.
 
-Calls to the [Toolkit Services](../services/index.md) are made using [GRPC](https://grpc.io/), which is supported in a wide range of languages &mdash; so it is easy to publish [configuration](configuration.md) and [session](sessions.md) metadata from an existing framework.
+Calls to the [Toolkit Services](../services/index.md) are made using [gRPC](https://grpc.io/), which is supported in a wide range of languages &mdash; so it is easy to publish [configuration](configuration.md) and [session](sessions.md) metadata from an existing framework.
 
 <object type="image/svg+xml" data="/assets/diagrams/integration/architectures/ingest-pipeline.svg" class="diagram" title="Architecture diagram toolkit services called from an ingest pipeline instead of an indexer"></object>
 
