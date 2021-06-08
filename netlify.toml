@@ -1,3 +1,7 @@
+[build]
+publish = "site"
+command = "mkdocs build"
+
 # minified and hashed name
 [[headers]]
   for = "*.min.js"
