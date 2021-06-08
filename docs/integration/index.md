@@ -37,9 +37,9 @@ By using these services to cover all the data management functionality, you won'
 
 <object type="image/svg+xml" data="/assets/diagrams/integration/intro-data-adapter.svg" class="diagram" title="Data Adapter with Toolkit Services"></object>
 
-These Toolkit Services provide [GRPC](https://grpc.io/) services for integration with the rest of your data infrastructure.
+These Toolkit Services provide [gRPC](https://grpc.io/) services for integration with the rest of your data infrastructure.
 
-[GRPC](https://grpc.io/) is a modern, high performance framework for making service calls. It supports all popular programming languages, and the services are fully-described with schemas &mdash; so you get a high-quality client library that will work with your existing software stack, and high-quality developer tools to guide use of the API.
+[gRPC](https://grpc.io/) is a modern, high performance framework for making service calls. It supports all popular programming languages, and the services are fully-described with schemas &mdash; so you get a high-quality client library that will work with your existing software stack, and high-quality developer tools to guide use of the API.
 
 You can deploy these services on [Windows](../downloads/services.md#windows) or [Linux](../downloads/services.md#windows), and on-premises or in the Cloud using our [Docker images](../downloads/services.md#docker). Our services are specifically designed to work well with [Kubernetes](https://kubernetes.io/) and [AWS](https://aws.amazon.com/).
 

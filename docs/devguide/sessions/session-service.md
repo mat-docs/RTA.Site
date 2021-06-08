@@ -2,13 +2,13 @@
 
 !!! tip
 
-    Explore the GRPC API using [GRPC UI](../utilities.md#grpc-ui).
+    Explore the gRPC API using [gRPC UI](../utilities.md#grpc-ui).
 
     This provides an intuitive web interface to issue API calls and see the responses.
 
 ## Opening a Channel
 
-The network connection to a server is called a _channel_ in most GRPC bindings.  
+The network connection to a server is called a _channel_ in most gRPC bindings.  
 This should be reused across service calls where possible, for efficiency.
 
 The session store service is provided by the Toolkit [Session Service](../../services/rta-sessionsvc/grpc.md) (default port 2652) and [RTA Server](../../services/rta-server/grpc.md) (default port 8082).

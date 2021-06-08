@@ -41,7 +41,7 @@ So each data binding must at least specify:
 
 ## Creating Data Bindings
 
-Use the [Session Service GRPC API](../../services/rta-sessionsvc/grpc.md) to `CreateOrUpdateSession` and populate `data_bindings`:
+Use the [Session Service gRPC API](../../services/rta-sessionsvc/grpc.md) to `CreateOrUpdateSession` and populate `data_bindings`:
 
 === "C# Sample &mdash; Simple"
 

@@ -11,7 +11,7 @@ MAT.OCS.RTA.Services.AspNetCore
   Supports ASP.NET Core 2.1, 3.1 and 5.0
 
 MAT.OCS.RTA.Toolkit.API.GrpcClients
-: Pre-compiled GRPC clients for the [Toolkit Services](../reference/services);  
+: Pre-compiled gRPC clients for the [Toolkit Services](../reference/services);  
   Supports .NET Standard 2.1 and .NET 5.0
 
 Refer to the [Developer Guide](../devguide) for more details.
@@ -27,7 +27,7 @@ A free [GitHub](https://github.com/) account is required.
     | MAT.OCS.RTA.Model                   | RTA data model, including classes modelling the API responses.             |
     | MAT.OCS.RTA.Services                | Service interfaces to be implemented by customer-specific backends.        |
     | MAT.OCS.RTA.Services.AspNetCore     | ASP.NET API Controllers and Formatters implementing the RTA specification. |
-    | MAT.OCS.RTA.Toolkit.API.GrpcClients | Pre-compiled GRPC clients for the Toolkit Services.                        |
+    | MAT.OCS.RTA.Toolkit.API.GrpcClients | Pre-compiled gRPC clients for the Toolkit Services.                        |
 
 === "Supporting Libraries"
 

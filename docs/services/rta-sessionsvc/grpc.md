@@ -1,6 +1,6 @@
-# GRPC API
+# gRPC API
 
-The service provides this private GRPC API to create and manage sessions.
+The service provides this private gRPC API to create and manage sessions.
 
 This API enables you to integrate this service into your private data environment.  
 It's not part of the RTA interface specification, and never called by ATLAS.
@@ -13,7 +13,7 @@ Typical Uses:
 
 ## Definition
 
-Save this definition to file, and use [GRPC tools](https://grpc.io/) to create a client in your preferred language.
+Save this definition to file, and use [gRPC tools](https://grpc.io/) to create a client in your preferred language.
 
 ``` protobuf
 --8<--

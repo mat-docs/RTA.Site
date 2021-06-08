@@ -82,7 +82,7 @@ environment:
 - RTA_DataServiceUris__rta-datasvc="http://rta-datasvc:2670"
 ```
 
-Communication between the services is REST-based. Each service essentially implements a section of the overall [REST API](../../../api/index.md) sections[^1]. The [Gateway Service](../../../services/rta-gatewaysvc/README.md) does not make any GRPC calls.
+Communication between the services is REST-based. Each service essentially implements a section of the overall [REST API](../../../api/index.md) sections[^1]. The [Gateway Service](../../../services/rta-gatewaysvc/README.md) does not make any gRPC calls.
 
 The network name &mdash; e.g. `rta-sessionsvc` &mdash; is derived from the name of the service in the YAML file.
 

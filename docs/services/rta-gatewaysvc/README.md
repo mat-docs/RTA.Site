@@ -13,7 +13,7 @@ For example, if you want to use multiple data storage technologies, you can depl
       
 As an alternative, the **Server** package provides most of this functionality in one convenient executable for development use.
 
-The service exposes the outward-facing REST interface to _ATLAS_ users. There is no GRPC interface.
+The service exposes the outward-facing REST interface to _ATLAS_ users. There is no gRPC interface.
 
 It is available as a binary for Windows and Linux, and as a Docker image.
 

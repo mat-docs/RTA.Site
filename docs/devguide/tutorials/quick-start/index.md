@@ -7,7 +7,7 @@ At the end, you'll have a sample data loader using functionality from McLaren's 
 In this tutorial, you:
 
 * Setup [RTA Server](../../../services/rta-server/README.md) from the [implementation toolkit](../../../services/index.md)
-* Generate and publish sample test [data](../../data/index.md), [configuration](../../configuration/index.md) and [sessions](../../sessions/index.md) using the [GRPC Services](../../../services/rta-server/grpc.md)
+* Generate and publish sample test [data](../../data/index.md), [configuration](../../configuration/index.md) and [sessions](../../sessions/index.md) using the [gRPC Services](../../../services/rta-server/grpc.md)
 * Test the deployment with ATLAS
 
 !!! tip
@@ -167,7 +167,7 @@ If the service says it is `Unhealthy`, the console log output should say why.
     * Can't communicate with PostgreSQL, or wrong PostgreSQL credentials
     * Can't find the specified directories for configs and data
 
-### GRPC (port 8082)
+### gRPC (port 8082)
 
 Grab a copy of [grpcui](https://github.com/fullstorydev/grpcui/releases).
 
@@ -177,7 +177,7 @@ From a terminal:
 grpcui -plaintext localhost:8082
 ```
 
-If successful, this will open a web page where you can browse and interact with the GRPC services &mdash; which will be useful later.
+If successful, this will open a web page where you can browse and interact with the gRPC services &mdash; which will be useful later.
 
 ??? notes "Troubleshooting"
 
@@ -255,7 +255,7 @@ You can create more sessions by running it again.
 
     * Make sure RTA Server is running
     * Make sure you're running the `RTA.Examples.Loader` project
-    * If you changed the GRPC port, update the demo source code
+    * If you changed the gRPC port, update the demo source code
 
 ## Step 5: Setup ATLAS
 

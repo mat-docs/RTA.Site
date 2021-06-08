@@ -35,7 +35,7 @@ This provides the root for a recursive search:
 
 ## Session Service walk-through
 
-See also: [GRPC API](../../services/rta-sessionsvc/grpc.md)
+See also: [gRPC API](../../services/rta-sessionsvc/grpc.md)
 
 ### Creating a Folder Tree
 
