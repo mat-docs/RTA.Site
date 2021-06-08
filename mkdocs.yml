@@ -102,10 +102,6 @@ theme:
   features:
     - navigation.tabs
     - toc.integrate
-    - navigation.instant
-
-extra_css:
-  - stylesheets/extra.css
 
 copyright: Copyright &copy; 2021 McLaren Applied Ltd.
 
