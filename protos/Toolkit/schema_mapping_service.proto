@@ -7,85 +7,109 @@ import "google/protobuf/wrappers.proto";
 
 option csharp_namespace = "MAT.OCS.RTA.Toolkit.API.SchemaMappingService";
 
+// Data type for the target channel, assumed to be little-endian unless otherwise specified.
+// This is optional information that may not be used by a data service.
+// Consult the data service documentation to determine its specific requirements and capabilities.
 enum TargetChannelDataType {
 	reserved 9;
-	TARGET_CHANNEL_DATA_TYPE_UNSPECIFIED = 0;
-	TARGET_CHANNEL_DATA_TYPE_UINT8 = 2;
-	TARGET_CHANNEL_DATA_TYPE_INT8 = 3;
-	TARGET_CHANNEL_DATA_TYPE_UINT16 = 4;
-	TARGET_CHANNEL_DATA_TYPE_INT16 = 5;
-	TARGET_CHANNEL_DATA_TYPE_UINT32 = 6;
-	TARGET_CHANNEL_DATA_TYPE_INT32 = 7;
-	TARGET_CHANNEL_DATA_TYPE_FLOAT32 = 8;
-	TARGET_CHANNEL_DATA_TYPE_DOUBLE64 = 10;
+	TARGET_CHANNEL_DATA_TYPE_UNSPECIFIED = 0;	// No target data type specified. This is the default.
+	TARGET_CHANNEL_DATA_TYPE_UINT8 = 2;			// Unsigned 8-bit integer.
+	TARGET_CHANNEL_DATA_TYPE_INT8 = 3;			// Signed 8-bit integer.
+	TARGET_CHANNEL_DATA_TYPE_UINT16 = 4;		// Unsigned 16-bit integer.
+	TARGET_CHANNEL_DATA_TYPE_INT16 = 5;			// Signed 16-bit integer.
+	TARGET_CHANNEL_DATA_TYPE_UINT32 = 6;		// Unsigned 32-bit integer.
+	TARGET_CHANNEL_DATA_TYPE_INT32 = 7;			// Signed 32-bit integer.
+	TARGET_CHANNEL_DATA_TYPE_FLOAT32 = 8;		// 32-bit (single-precision) floating-point number.
+	TARGET_CHANNEL_DATA_TYPE_DOUBLE64 = 10;		// 64-bit (double-precision) floating-point number.
 }
 
+// Represents a mapping from a data source schema to the RTA domain model.
 message SchemaMapping {
-	map<string, string> properties = 1;
-	repeated FieldMapping field_mappings = 2; 
-	repeated EventMapping event_mappings = 3;
+	map<string, string> properties = 1;			// Metadata applying to all fields and events.
+	repeated FieldMapping field_mappings = 2;	// Mappings for fields/parameters/channels.
+	repeated EventMapping event_mappings = 3;	// Mappings for events.
 }
 
+// Represents a mapping from a field/parameter to an RTA channel.
 message FieldMapping {
-	string source_field = 1;
-	uint32 target_channel = 2;
+	string source_field = 1;					// Field name/id in the source schema. Free-form.
+	uint32 target_channel = 2;					// Channel id in the RTA configuration.
 
-	map<string, string> properties = 3;
-	string source_field_data_type = 4;
-	TargetChannelDataType target_channel_data_type = 5;
+	map<string, string> properties = 3;			// Metadata applying to this field.
+	string source_field_data_type = 4;			// Source data type. Optional; empty if unused.
+	TargetChannelDataType target_channel_data_type = 5; // Target channel data type. Optional; unspecified (0) if unused.
 }
 
+// Represents a mapping from a source schema event to an RTA event.
 message EventMapping {
-	string source_event = 1;
-	string target_event_app = 2;
-	int32 target_event_id = 3;
+	string source_event = 1;					// Event name/id in the source schema. Free-form.
+	string target_event_app = 2;				// App name of event definition in the RTA configuration.
+	int32 target_event_id = 3;					// Event definition id in the RTA configuration.
 
-	map<string, string> properties = 4;
-	repeated string source_event_data_fields = 5;
+	map<string, string> properties = 4;			// Metadata applying to this event.
+	repeated string source_event_data_fields = 5; // Fields contributing event data. Optional; empty if unused.
 }
 
+// Request for PutSchemaMapping.
 message PutSchemaMappingRequest {
-	string data_source = 1;
-	string data_identity = 2;
-	SchemaMapping schema_mapping = 3;
+	string data_source = 1;				// Data source token. Acts as a namespace for the data identity.
+	string data_identity = 2;			// Data session identity, which together with data source uniquely binds to a session. In practice this is often a filename, database id, or query expression.
+	SchemaMapping schema_mapping = 3;	// Schema Mapping to store.
 }
 
+// Request for HasSchemaMapping
 message HasSchemaMappingRequest {
-	string data_source = 1;
-	string data_identity = 2;
+	string data_source = 1;				// Data source token. Acts as a namespace for the data identity.
+	string data_identity = 2;			// Data session identity, which together with data source uniquely binds to a session.
 }
 
+// Request for GetSchemaMapping
 message GetSchemaMappingRequest {
-	string data_source = 1;
-	string data_identity = 2;
+	string data_source = 1;				// Data source token. Acts as a namespace for the data identity.
+	string data_identity = 2;			// Data session identity, which together with data source uniquely binds to a session.
 }
 
+// Request for QuerySchemaMapping.
 message QuerySchemaMappingRequest {
-	string data_source = 1;
-	string data_identity = 2;
-	string select_channels = 3;
-	bool select_events = 4;
+	string data_source = 1;				// Data source token. Acts as a namespace for the data identity.
+	string data_identity = 2;			// Data session identity, which together with data source uniquely binds to a session.
+	string select_channels = 3;			// Selects channels to be returned, as an expression - e.g. "-5,7,B-D,14-"
+	bool select_events = 4;				// Selects whether event mappings should be returned.
 }
 
+// Request for DeleteSchemaMapping.
 message DeleteSchemaMappingRequest {
-	string data_source = 1;
-	string data_identity = 2;
+	string data_source = 1;				// Data source token. Acts as a namespace for the data identity.
+	string data_identity = 2;			// Data session identity, which together with data source uniquely binds to a session.
 }
 
+// Manages Schema Mappings.
+//
+// Schema Mappings describe transformations from a data store schema to the RTA domain model.
 service SchemaMappingStore {
 
+	// Checks whether a Schema Mapping is stored.
 	rpc HasSchemaMapping(HasSchemaMappingRequest)
 	returns (google.protobuf.BoolValue);
 
+	// Gets a Schema Mapping.
 	rpc GetSchemaMapping(GetSchemaMappingRequest)
 	returns (SchemaMapping);
 
+	// Queries a Schema Mapping, filtering the result to include only selected channels and (all/none) events.
+	// The channels filter is the same simple expression langauge used in the REST API.
 	rpc QuerySchemaMapping(QuerySchemaMappingRequest)
 	returns (SchemaMapping);
 
+	// Creates or updates a Schema Mapping.
+	// The exact content will vary according to the requirements of the data service.
+	// Consult the service documentation for details.
 	rpc PutSchemaMapping(PutSchemaMappingRequest)
 	returns (google.protobuf.Empty);
 
+	// Deletes a Schema Mapping.
+	// This is safer than deleting config since it is bound to a specific session,
+	// but you should still verify that the session is no longer required.
 	rpc DeleteSchemaMapping(DeleteSchemaMappingRequest)
 	returns (google.protobuf.Empty);
 

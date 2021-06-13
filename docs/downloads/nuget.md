@@ -27,7 +27,9 @@ A free [GitHub](https://github.com/) account is required.
     | MAT.OCS.RTA.Model                   | RTA data model, including classes modelling the API responses.             |
     | MAT.OCS.RTA.Services                | Service interfaces to be implemented by customer-specific backends.        |
     | MAT.OCS.RTA.Services.AspNetCore     | ASP.NET API Controllers and Formatters implementing the RTA specification. |
-    | MAT.OCS.RTA.Toolkit.API.GrpcClients | Pre-compiled gRPC clients for the Toolkit Services.                        |
+    | MAT.OCS.RTA.Toolkit.API.GrpcClients | Pre-compiled gRPC clients for use from services or utilities.              |
+    | MAT.OCS.RTA.Toolkit.API.GrpcServers | Pre-compiled gRPC servers/clients for use from services only.              |
+    | MAT.OCS.RTA.StreamBuffer            | RTA stream buffering via Redis.                                            |
 
 === "Supporting Libraries"
 

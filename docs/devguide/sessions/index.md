@@ -56,14 +56,11 @@ An RTA Session does not have to be a 1:1 match for a telemetry recording, and th
         CreateIfNotExists = new()
         {
             Identifier = "Session Demo 06 May 2021 18:58",
-            Timestamp = "2021-05-06T18:58:56.20289+01:00"
+            Timestamp = "2021-05-06T18:58:56.20289+01:00",
+            State = (int)SessionState.Closed
         },
         Updates =
         {
-            new SessionUpdate
-            {
-                SetState = (int)SessionState.Closed
-            },
             new SessionUpdate
             {
                 SetTimeRange = new()
@@ -74,21 +71,13 @@ An RTA Session does not have to be a 1:1 match for a telemetry recording, and th
             },
             new SessionUpdate
             {
-                SetDetails = new()
+                SetDetailsJson = new()
                 {
-                    Details =
+                    Json = new JObject
                     {
-                        new SessionDetail
-                        {
-                            Key = "Lab Tech",
-                            StringValue = "Bob Jones"
-                        },
-                        new SessionDetail
-                        {
-                            Key = "Run",
-                            IntegerValue = 17
-                        }
-                    }
+                        ["Lab Tech"] = "Bob Jones",
+                        ["Run"] = 17
+                    }.ToString()
                 }
             },
             new SessionUpdate
@@ -99,7 +88,7 @@ An RTA Session does not have to be a 1:1 match for a telemetry recording, and th
                     {
                         new ConfigBinding
                         {
-                            ConfigIdentifier = "6d711dbc-5f0d-47d2-b127-8c9d20bcec01"
+                            Identifier = "6d711dbc-5f0d-47d2-b127-8c9d20bcec01"
                         }
                     }
                 }

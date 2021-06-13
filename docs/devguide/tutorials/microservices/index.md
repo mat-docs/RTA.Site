@@ -421,7 +421,7 @@ await WriteSessionAsync(
 
 Add some additional logic to `WriteSessionAsync` to create the data binding along with the session:
 
-```c# hl_lines="3 4 12 45-61"
+```c# hl_lines="3 4 12 41-57"
 private static async Task WriteSessionAsync(
     SessionStore.SessionStoreClient sessionClient,
     string sessionIdentity,
@@ -443,10 +443,6 @@ private static async Task WriteSessionAsync(
         {
             new SessionUpdate
             {
-                SetState = (int) SessionState.Closed
-            },
-            new SessionUpdate
-            {
                 SetTimeRange = new()
                 {
                     StartTime = startNanos,
@@ -461,7 +457,7 @@ private static async Task WriteSessionAsync(
                     {
                         new ConfigBinding
                         {
-                            ConfigIdentifier = configIdentifier
+                            Identifier = configIdentifier
                         }
                     }
                 }
