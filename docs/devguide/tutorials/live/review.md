@@ -60,16 +60,16 @@ The [Redis](http://redis.io/) data flow follows a [simple protocol](../../live/r
 
 Each message is `StreamData`, but sent in bursts as `StreamDataBurst` to improve network efficiency.
 
-The streams are typically cached in Redis long enough to cover the time taken for data to flush to the main store &mdash; which could be seconds or hours, depending on the storage technology. The Redis instance needs to be sized appropriately. The [Stream Service](../../../services/rta-streamsvc/README.md) includes an automatic trimmer to limit retention.
+The streams are typically buffered in Redis long enough to cover the time taken for data to flush to the main store &mdash; which could be seconds or hours, depending on the storage technology. The Redis instance needs to be sized appropriately. The [Stream Service](../../../services/rta-streamsvc/README.md) includes an automatic trimmer to limit retention.
 
 ### Library Support
 
-[The protocol](../../live/redis.md) is implemented by the _MAT.OCS.RTA.Cache.Redis_ [NuGet Package](../../../downloads/nuget.md).
+[The protocol](../../live/redis.md) is implemented by the _MAT.OCS.RTA.StreamBuffer_ [NuGet Package](../../../downloads/nuget.md).
 
 To connect to Redis:
 
 ```c#
-using var redisBuffer = new RedisStreamCache(hostname, db);
+using var redisBuffer = new RedisStreamBuffer(hostname, db);
 var streamBuffer = await redisBuffer.InitStreamSessionAsync(sessionIdentity, streamName);
 ```
 

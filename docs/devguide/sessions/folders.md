@@ -154,7 +154,7 @@ Creating a session in the `animals` folder, and then adding it to the `plants` f
             {
                 SetFolders = new()
                 {
-                    FolderIdentities =
+                    Identities =
                     {
                         "animals"
                     }
@@ -201,9 +201,9 @@ Creating a session in the `animals` folder, and then adding it to the `plants` f
         {
             new SessionUpdate
             {
-                PutFolders = new()
+                UpdateFolders = new()
                 {
-                    FolderIdentities =
+                    Identities =
                     {
                         "plants"
                     }
@@ -259,7 +259,7 @@ Creating a session in the `animals` folder, and then adding it to the `plants` f
             {
                 DeleteFolders = new()
                 {
-                    FolderIdentities =
+                    Identities =
                     {
                         "plants"
                     }
@@ -291,7 +291,7 @@ If a session would be left without a parent folder, it is re-parented in the roo
     ```c#
     await sessionClient.DeleteSessionFoldersAsync(new DeleteSessionFoldersRequest
     {
-        FolderIdentities =
+        Identities =
         {
             "animals",
             "plants"

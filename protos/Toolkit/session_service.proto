@@ -7,200 +7,368 @@ import "google/protobuf/wrappers.proto";
 
 option csharp_namespace = "MAT.OCS.RTA.Toolkit.API.SessionService";
 
-// TODO what we're missing here is the metamodel schema - we should provide a way for this to be described
+// Manages Sessions.
+//
+// Sessions are a logical way to organize data - like a file system.
+// This service includes support for organizing sessions into folders and searching by metadata.
+service SessionStore {
 
-message SessionFolder {
-    string identity = 1;
-    string label = 2;
-    string description = 3;
-    bool has_children = 4;
+    // Gets session folders within a parent folder.
+	rpc GetSessionFolders(GetSessionFoldersRequest)
+	returns (GetSessionFoldersResponse);
+
+    // Updates a folder.
+    // Use this method to move a folder, by updating its parent.
+    rpc PutSessionFolder(PutSessionFolderRequest)
+    returns (google.protobuf.Empty);
+
+    // Deletes folders. The root folder (empty identity) cannot be deleted.
+    // Any sessions left orphaned by this method are reattached to the root folder.
+    rpc DeleteSessionFolders(DeleteSessionFoldersRequest)
+    returns (google.protobuf.Empty);
+
+    // Gets a summary of session properties.
+    // Can be scoped by folder sub-tree.
+	rpc GetSessionMetamodel(GetSessionMetamodelRequest)
+	returns (GetSessionMetamodelResponse);
+
+    // Queries the session metamodel for properties from the extended session details,
+    // which are not exposed in the session or metamodel by default.
+	rpc QuerySessionMetamodel(QuerySessionMetamodelRequest)
+	returns (QuerySessionMetamodelResponse);
+
+    // Lists sessions, with sorting and paging.
+	rpc ListSessions(ListSessionsRequest)
+	returns (ListSessionsResponse);
+
+    // Gets the specified session by identity.
+	rpc GetSession(GetSessionRequest)
+	returns (Session);
+
+    // Creates or updates a session.
+    rpc CreateOrUpdateSession(CreateOrUpdateSessionRequest)
+    returns (google.protobuf.Empty);
+
+    // Deletes sessions.
+    // Sessions that do not exist are silently ignored.
+    rpc DeleteSessions(DeleteSessionsRequest)
+    returns (google.protobuf.Empty);
+    
 }
 
+// Request for GetSessionFolders.
+message GetSessionFoldersRequest {
+    string parent_identity = 1;
+}
+
+// Response for GetSessionFolders.
+message GetSessionFoldersResponse {
+    repeated SessionFolder folders = 1;
+}
+
+// Request for DeleteSessionFolders.
+message DeleteSessionFoldersRequest {
+    repeated string folder_identities = 1;
+}
+
+// Request for PutSessionFolder.
+message PutSessionFolderRequest {
+    string parent_identity = 1;             // Parent folder identity.
+    string identity = 2;                    // Folder identity.
+    string label = 3;                       // Human-readable label.
+    string description = 4;                 // Human-readable description.
+}
+
+// Request for GetSessionMetamodel.
+message GetSessionMetamodelRequest {
+    string folder_subtree = 1;              // Identity of folder sub-tree to select sessions for the metamodel.
+    repeated string json_properties = 2;    // Property keys to include in the JSON response.
+}
+
+// Response for GetSessionMetamodel.
+message GetSessionMetamodelResponse {
+    string metamodel_json = 1;              // JSON response matching the REST API.
+}
+
+// Request for QuerySessionMetamodel.
+message QuerySessionMetamodelRequest {
+    string partial_match = 1;               // Partial match to properties.
+    string folder_subtree = 2;              // Identity of folder sub-tree to select sessions for the metamodel.
+}
+
+// Response for QuerySessionMetamodel.
+message QuerySessionMetamodelResponse {
+    repeated PropertySummary property_summaries = 1;    
+}
+
+// Request for GetSession.
+message GetSessionRequest {
+    string identity = 1;                    // Session identity.
+    SessionElements elements = 2;           // Session elements to include.
+}
+
+// Request for DeleteSessions.
+message DeleteSessionsRequest {
+    repeated string identities = 1;         // Session identities.
+}
+
+// Request for ListSessions.
+message ListSessionsRequest {
+    string query = 1;                       // JSON query expression matching the REST API.
+    string folder_subtree = 2;              // Identity of folder sub-tree to select sessions.
+    repeated string sorts = 3;              // Sort directives, formatted as property:[asc|desc]..
+    SessionElements session_elements = 4;   // Session elements to include.
+    bool include_sub_sessions = 5;          // Include child and alternate sessions in the list. The REST API does not offer this option.
+    int32 page_index = 6;                   // Page index (zero-based).
+    int32 page_size = 7;                    // Page size.
+}
+
+// Response for ListSessions.
+message ListSessionsResponse {
+    repeated Session sessions = 1;          // Sessions.
+}
+
+// Request for CreateOrUpdateSession.
 message CreateOrUpdateSessionRequest {
-    string identity = 1;
-    google.protobuf.Int64Value sequence = 2;
+    string identity = 1;                        // Session identity.
+    google.protobuf.Int64Value sequence = 2;    // If specified, the update will be applied only if the last sequence number was lower. 
 
-    CreateIfNotExists create_if_not_exists = 3;
-    repeated SessionUpdate updates = 4;
+    CreateIfNotExists create_if_not_exists = 3; // Initial properties to apply if the session does not already exist.
+    repeated SessionUpdate updates = 4;         // Updates to apply together as a transaction.
 
+    // Initial session definition
     message CreateIfNotExists {
-        string timestamp = 1;
-        string identifier = 2;
+        int32 state = 1;                        // Initial state (defaults to closed/4).
+        string timestamp = 2;                   // ISO 8601 timestamp (defaults to current UTC time).
+        string identifier = 3;                  // Identifier (human-readable name; defaults to identity).
 	}
 }
 
+// Update to apply to a session.
+// Each update performs a single operation, but multiple updates can be
+// specified together in a single transaction.
 message SessionUpdate {
 
     oneof op {
-        google.protobuf.Empty update_heartbeat = 1;
+        google.protobuf.Empty update_heartbeat = 1;         // Touches the session.
 
-        int32 set_state = 3;
-        string set_timestamp = 4;
+        int32 set_state = 2;                                // Sets the state.
+        string set_timestamp = 3;                           // Sets the ISO 8601 timestamp.
 
-        TimeRange set_time_range = 6;
-        TimeRange extend_time_range = 5;
-        google.protobuf.Empty clear_time_range = 7;
+        TimeRange set_time_range = 4;                       // Sets the time-range covered by data in the session.
+        TimeRange extend_time_range = 5;                    // Extends the time-range covered by data in the session.
+        google.protobuf.Empty clear_time_range = 6;         // Clears the time-range, implying there is no data in the session.
 
-        string set_identifier = 8;
+        string set_identifier = 7;                          // Sets the name.
         
-        SessionDetailsList set_details = 11;
-        SessionDetailsList put_details = 9;
-        SessionDetailKeysList delete_details = 10;
+        DetailsMap set_details = 8;                         // Sets the details, which are user-facing key-value metadata.
+        DetailsMap update_details = 9;                      // Merges updates to the details, which are user-facing key-value metadata.
+        DetailsJson set_details_json = 10;                  // Sets the details from JSON.
+        DetailsJson update_details_json = 11;               // Merges updates to details from JSON.
+        DetailKeysList delete_details = 12;                 // Deletes details.
         
-        SessionExtDetailsList set_ext_details = 14;
-        SessionExtDetailsList put_ext_details = 12;
-        SessionExtDetailKeysList delete_ext_details = 13;
+        google.protobuf.StringValue set_type = 13;          // Sets the type classifier, indicating the origin or content of the session.
+        google.protobuf.Empty clear_type = 14;              // Clears the type classifier.
         
-        google.protobuf.StringValue set_type = 15;
-        google.protobuf.Empty clear_type = 16;
+        double set_quality = 15;                            // Sets the quality indicator in the range 0.0 - 1.0 (worst - best).
+        google.protobuf.Empty clear_quality = 16;           // Clears the quality indicator.
         
-        double set_quality = 17;
-        google.protobuf.Empty clear_quality = 18;
+        string set_group = 17;                              // Sets a group to enable the client to organize the session into groups amongst peers.
+        google.protobuf.Empty clear_group = 18;             // Clears the group.
         
-        string set_group = 19;
-        google.protobuf.Empty clear_group = 20;
-        
-        string set_version = 21;
-        google.protobuf.Empty clear_version = 22;
+        string set_version = 19;                            // Sets a SemVer-style version number, which is used together with the group when managing child sessions.
+        google.protobuf.Empty clear_version = 20;           // Clears the version number.
 
-        MarkersList set_markers = 25;
-        MarkersList put_markers = 23;
-        MarkerIdsList delete_markers = 24;
+        MarkersMap set_markers = 21;                        // Sets markers, which are annotations marking up regions of the session.
+        MarkersMap update_markers = 22;                     // Merges updates to the markers.
+        MarkerIdsList delete_markers = 23;                  // Deletes markers.
 
-        ConfigBindingsList set_config_bindings = 28;
-        ConfigBindingsList put_config_bindings = 26;
-        ConfigIdentifiersList delete_config_bindings = 27;
+        ConfigBindingsList set_config_bindings = 24;        // Sets config bindings, which associate Configuration with the session.
+        ConfigBindingsList update_config_bindings = 25;     // Merges updates to config bindings.
+        ConfigIdentifiersList delete_config_bindings = 26;  // Deletes config bindings.
 
-        DataBindingsList set_data_bindings = 31;
-        DataBindingsList put_data_bindings = 29;
-        DataBindingKeysList delete_data_bindings = 30;
+        DataBindingsList set_data_bindings = 27;            // Sets data bindings, which bind data from Data Services to sessions.
+        DataBindingsList update_data_bindings = 28;         // Merges updates to data bindings.
+        DataBindingKeysList delete_data_bindings = 29;      // Deletes data bindings.
 
-        FoldersList set_folders = 34;
-        FoldersList put_folders = 32;
-        FoldersList delete_folders = 33;
+        FoldersList set_folders = 30;                       // Sets folders the session symbolically linked to.
+        FoldersList update_folders = 31;                    // Merges updates to the folder sym-links.
+        FoldersList delete_folders = 32;                    // Deletes folder sym-links. If this results in the session being orphaned, it is linked to the root folder.
 
-        RefUrisList set_ref_anchors = 37;
-        RefUrisList put_ref_anchors = 35;
-        RefUrisList delete_ref_anchors = 36;
+        RefUrisList set_ref_anchors = 33;                   // Sets URIs that act as anchors for alternate and child references.
+        RefUrisList update_ref_anchors = 34;                // Merges updates to anchor URIs.
+        RefUrisList delete_ref_anchors = 35;                // Deletes anchor URIs.
 
-        RefUrisList set_alternate_of_refs = 40;
-        RefUrisList put_alternate_of_refs = 38;
-        RefUrisList delete_alternate_of_refs = 39;
+        RefUrisList set_alternate_of_refs = 36;             // Sets alternate_of references pointing to anchor URIs on other sessions.
+        RefUrisList update_alternate_of_refs = 37;          // Merges updates to alternate_of references.
+        RefUrisList delete_alternate_of_refs = 38;          // Deletes alternate_of references.
 
-        RefUrisList set_child_of_refs = 43;
-        RefUrisList put_child_of_refs = 41;
-        RefUrisList delete_child_of_refs = 42;
+        RefUrisList set_child_of_refs = 39;                 // Sets child_of references pointing to anchor URIs on other sessionsthat this session is a child of.
+        RefUrisList update_child_of_refs = 40;              // Merges updates to child_of references.
+        RefUrisList delete_child_of_refs = 41;              // Deletes child_of references.
 	}
 
-    message TimeRange {
-        int64 start_time = 1;
-        int64 end_time = 2;
-    }    
+    // Session details where all values are strings.
+    message DetailsMap {
+        // Category if extended details; otherwise leave blank.
+        string category = 1;
+        // Details as strings only.
+        // Boolean, integer and number values are also allowed: use SessionDetailsJson.
+        map<string, string> details = 2;
+    }
 
-    message SessionDetailKeysList {
-        repeated string keys = 1;
+    // Session details represented as JSON.
+    message DetailsJson {
+        // Category if extended details; otherwise leave blank.
+        string category = 1;
+        // Details JSON. Values can be string, boolean, integer, and number.
+        string json = 2;
+    }
+
+    // List of session detail keys.
+    message DetailKeysList {
+        // Category if extended details.
+        string category = 1;
+        // Detail keys.
+        repeated string keys = 2;
 	}
-
-    message SessionDetailsList {
-        repeated SessionDetail details = 1;
-	}
-
+    
+    // List of marker ids.
     message MarkerIdsList {
+        // Marker ids.
         repeated string marker_ids = 1;
 	}
 
+    // Session markers, organized by category.
+    // A marker id can only appear in one MarkersList.
+    message MarkersMap {
+        // Markers by category.
+        map<string, MarkersList> markers_by_category = 1;
+	}
+
+    // List of markers.
     message MarkersList {
+        // Markers.
         repeated Marker markers = 1;
-	}
+    }
 
-    message SessionExtDetailKeysList {
-        repeated SessionExtDetailKeys ext_details = 1;
-	}
-
-    message SessionExtDetailsList {
-        repeated SessionExtDetails ext_details = 1;
-	}
-
+    // List of config identifiers.
     message ConfigIdentifiersList {
-        repeated string config_identifiers = 1;
+        // Config identifiers.
+        repeated string identifiers = 1;
 	}
 
+    // List of config bindings.
     message ConfigBindingsList {
+        // Config bindings.
         repeated ConfigBinding config_bindings = 1;
 	}
 
+    // List of data binding keys.
     message DataBindingKeysList {
+        // Data binding keys.
         repeated DataBindingKey keys = 1;
 	}
 
+    // List of data bindings.
     message DataBindingsList {
+        // Data bindings.
         repeated DataBinding data_bindings = 1;
 	}
 
+    // List of folder identities.
     message FoldersList {
-        repeated string folder_identities = 1;
+        // Folder identities.
+        repeated string identities = 1;
 	}
 
+    // List of reference URIs.
     message RefUrisList {
+        // Reference URIs.
         repeated string ref_uris = 1;
 	}
 
 }
 
-message Marker {
-    string id = 1;
-    string type = 2;
-    string group = 3;
-    string label = 4;
-    google.protobuf.StringValue description = 5;   
-    google.protobuf.Int64Value start_time = 6;
-    google.protobuf.Int64Value end_time = 7;
-    map<string, MarkerProperty> properties = 8;
+// Describes the time-range covered by data in a session.
+message TimeRange {
+    // Start of data, in nanoseconds since the Unix epoch.
+    sfixed64 start_time = 1;        
+    // End of data, in nanoseconds since the Unix epoch.
+    sfixed64 end_time = 2;                              
 }
 
-message MarkerProperty {
-    google.protobuf.StringValue label = 1;
-    google.protobuf.StringValue description = 2;
-    google.protobuf.StringValue format = 3;
-    google.protobuf.StringValue unit = 4;
-    oneof kind {
-	    bool bool_value = 5;
-	    int64 integer_value = 6;
-        double number_value = 7;
-	    string string_value = 8;
-        string datetime_value = 9;
-    }
-}
-
-message PropertySummary {
-    string id = 1;
+// Virtual folder for organizing sessions.
+message SessionFolder {
+    // Unique identity; UUID recommended but not required.
+    string identity = 1;
+    // Human-readable label.
     string label = 2;
+    // Human-readable description.
+    string description = 3;
+    // Indicates whether there are child folders.
+    bool has_children = 4;
+}
+
+// Describes a metamodel property.
+message PropertySummary {
+    // Property id, which is the qualified key.
+    // For example, a the "Driver" session detail would be id "details.Driver".
+    string id = 1;
+    // Human-readable label.
+    string label = 2;
+    // Human-readable description.
     string description = 3;
 }
 
-message SessionDetail {
-    string key = 1;
-    oneof kind {
-	    bool bool_value = 2;
-	    int64 integer_value = 3;
-        double number_value = 4;
-	    string string_value = 5;
-        string datetime_value = 6;
-    }
+// Describes a point or region of data in a session.
+message Marker {
+    // Unique id within the session.
+    string id = 1;
+    // Type.
+    string type = 2;
+    // Human-readable label.
+    string label = 3;
+    // Human-readable description.
+    google.protobuf.StringValue description = 4;
+    // Optional start time, in nanoseconds since the Unix epoch (inclusive).
+    // If unspecified, the start of the marker is treated as immediately after the end of the previous marker in the group,
+    // or the start of the session if there is no previous marker.
+    google.protobuf.Int64Value start_time = 5;
+    // Optional end time, in nanoseconds since the Unix epoch (inclusive).
+    // If unspecified, the end of the marker is treated as immediately before the start of the next marker in the group,
+    // or the end of the session if there is no next marker.
+    google.protobuf.Int64Value end_time = 6;
+    // Details object (JSON).
+    string details_json = 7;
 }
 
+// Binds configuration to a session.
 message ConfigBinding {
-	string config_identifier = 1;
-	uint32 channel_offset = 2;
+    // Config identifier.
+    // Corresponds to the identifier used to publish to the Config Service.
+    // A single configuration can be bound to multiple sessions.
+	string identifier = 1;
+    // Channel offset to avoid overlaps between configuration.
+	uint32 channel_offset = 2;      
 }
 
+// Uniquely identifies the binding of data onto a session.
 message DataBindingKey {
+    // Data source token, effectively acting as a namespace for the identity, and used by the Gateway Service to route data requests.
     string source = 1;
+    // Data identity. Often a query expression, database key, or file path.
     string identity = 2;
-    int64 time_ref = 3;
+    // Additional qualifier to create a unique key if the data is bound to a session over multiple time-ranges. 
+    // The value is arbitrary, but when in use the obvious choice would be the start of each bound time-range.
+    int64 time_ref = 3;             
 }
 
+// Binds data onto a session.
+// This creates indirection where multiple Data Services can contribute data to a Session.
+// The Gateway Service retrieves data bindings using an internal REST API call, and routes requests based on the key data source.
 message DataBinding {
+    // Uniquely identifies the data binding relative to the session.
     DataBindingKey key = 1;
 
     // Start of time range covered in the session (inclusive), in nanoseconds relative to the Unix epoch.
@@ -215,144 +383,54 @@ message DataBinding {
     // Zero implies that the data time is the same.
     sint64 session_time_offset = 4;
 
-    map<string, string> directives = 5;
-
     // Maps channels onto the session.
     // If no channel bindings are specified, channel-based data requests (row, periodic, timestamped) are not bound.
-    repeated DataChannelBinding data_channel_bindings = 6;
+    repeated DataChannelBinding data_channel_bindings = 5;
 }
 
+// Represents a range of data channels bound onto a session.
 message DataChannelBinding {
     // Lowest numbered data channel corresponding to the lowest numbered session channel, to allow any necessary offset to be applied.
     uint32 first_data_channel = 1;
     // Lowest numbered channel (inclusive) in range, relative to the configuration bound to the session.
+    // If different from first_data_channel, this implies on-the-fly data transformation.
     uint32 first_session_channel = 2;
     // Highest numbered channel (inclusive) in range, relative to the configuration bound to the session.
     uint32 last_session_channel = 3;
 }
 
-message SessionExtDetailKeys {
-    string category = 1;
-    repeated string keys = 2;
-}
-
-message SessionExtDetails {
-    string category = 1;
-    repeated SessionDetail details = 2;
-}
-
+// Selects elements to be retrieved when calling ListSessions or GetSession.
 message SessionElements {
+    // JSON representation of the session as served via the REST API.
     bool json = 1;
+    // Specific JSON properties to include.
     repeated string json_properties = 2;
+    // Last time the session was touched.
     bool heartbeat_utc = 3;
+    // Data Bindings describing how data should be retrieved from Data Services.
     bool data_bindings = 4;
+    // Folder membership.
     bool folders = 5;
-    bool ref_anchors = 6;
-    bool child_of_refs = 7;
-    bool alternate_of_refs = 8;
+    // References between sessions.
+    bool refs = 6;
 }
 
-// OK, so what I'm thinking here is that we have one session at different levels of detail
-// and then also some way to service data requests efficiently
+// Service session: a super-set of the REST session model and the other elements modelled by the Session Service.
 message Session {
+    // Session identity (always present).
     string identity = 1;
+    // If selected: JSON representation of the session as served via the REST API.
 	string json = 2;
+    // If selected: Last time the session was touched.
     string heartbeat_utc = 3;
+    // If selected: Data Bindings describing how data should be retrieved from Data Services.
 	repeated DataBinding data_bindings = 4;
+    // If selected: Folder membership.
 	repeated string folders = 5;
+    // If selected (refs element): Anchor URIs that can be targets for references from other sessions.
 	repeated string ref_anchors = 6;
+    // If selected (refs element): References to other sessions for which the session is a child.
 	repeated string child_of_refs = 7;
+    // If selected (refs element): References to other sessions for which the session is an alternate.
 	repeated string alternate_of_refs = 8;
-}
-
-message GetSessionFoldersRequest {
-    string parent_identity = 1;
-}
-
-message GetSessionFoldersResponse {
-    repeated SessionFolder folders = 1;
-}
-
-message DeleteSessionFoldersRequest {
-    repeated string folder_identities = 1;
-}
-
-message PutSessionFolderRequest {
-    string parent_identity = 1;
-    string identity = 2;
-    string label = 3;
-    string description = 4;
-}
-
-message GetSessionMetamodelRequest {
-    string folder_subtree = 1;
-    repeated string json_properties = 2;
-}
-
-message GetSessionMetamodelResponse {
-    string metamodel_json = 1;
-}
-
-message QuerySessionMetamodelRequest {
-    string partial_match = 1;
-    string folder_subtree = 2;
-}
-
-message QuerySessionMetamodelResponse {
-    repeated PropertySummary property_summaries = 1;
-}
-
-message GetSessionRequest {
-    string identity = 1;
-    SessionElements elements = 2;
-}
-
-message DeleteSessionsRequest {
-    repeated string identities = 1;
-}
-
-// option to include metadata?
-message ListSessionsRequest {
-    string query = 1;
-    string folder_subtree = 2;
-    repeated string sorts = 3;
-    SessionElements session_elements = 4;
-    bool include_sub_sessions = 5;
-    int32 page_index = 6;
-    int32 page_size = 7;
-}
-
-message ListSessionsResponse {
-    repeated Session sessions = 1;
-}
-
-service SessionStore {
-
-	rpc GetSessionFolders(GetSessionFoldersRequest)
-	returns (GetSessionFoldersResponse);
-
-    rpc PutSessionFolder(PutSessionFolderRequest)
-    returns (google.protobuf.Empty);
-
-    rpc DeleteSessionFolders(DeleteSessionFoldersRequest)
-    returns (google.protobuf.Empty);
-
-	rpc GetSessionMetamodel(GetSessionMetamodelRequest)
-	returns (GetSessionMetamodelResponse);
-
-	rpc QuerySessionMetamodel(QuerySessionMetamodelRequest)
-	returns (QuerySessionMetamodelResponse);
-
-	rpc GetSession(GetSessionRequest)
-	returns (Session);
-
-	rpc ListSessions(ListSessionsRequest)
-	returns (ListSessionsResponse);
-
-    rpc CreateOrUpdateSession(CreateOrUpdateSessionRequest)
-    returns (google.protobuf.Empty);
-
-    rpc DeleteSessions(DeleteSessionsRequest)
-    returns (google.protobuf.Empty);
-    
 }

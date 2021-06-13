@@ -7,57 +7,62 @@ import "google/protobuf/wrappers.proto";
 
 option csharp_namespace = "MAT.OCS.RTA.Toolkit.API.DataService";
 
-message FlushMarker {
-	string id = 1;
-}
-
-message WriteDataStreamRequest {
+// Request messages for WriteDataStream.
+message WriteDataStreamMessage {
 	oneof type {
-		string data_identity = 1;
-		FlushMarker flush = 2;
-		rta.model.data.TimestampedData timestamped_data = 3;
-		rta.model.data.PeriodicData periodic_data = 4;
-		rta.model.data.RowData row_data = 5;
-		rta.model.data.Event event = 6;
+		string data_identity = 1;				// Data identity to write. Format and length is restricted based on the backing store.
+		string flush_marker = 2;				// Requests a flush, to be acknowledged with this marker when completed. Don't flush too frequently or write and read performance will drop off.
+		rta.model.data.TimestampedData timestamped_data = 3;	// Timestamped Data to write. Note that individual data items are written, but they are read back in lists.
+		rta.model.data.PeriodicData periodic_data = 4;			// Periodic Data to write. Note that individual data items are written, but they are read back in lists.
+		rta.model.data.RowData row_data = 5;					// Row Data to write. Note that individual data items are written, but they are read back in lists.
+		rta.model.data.Event event = 6;							// Event to write. Note that individual data items are written, but they are read back in lists.
 	}
 }
 
-message WriteDataStreamResponse {
+// Response messages for WriteDataStream.
+message WriteDataStreamResponseMessage {
 	oneof type {
-		FlushMarker flush = 1;
+		string flush_completed = 1;				// Indicates that a requested flush is completd by echoing back the flush marker.
 	}
 }
 
+// Request for ReadEventsStream.
 message ReadDataStreamRequest {
-	string data_identity = 1;
-	google.protobuf.Int64Value start_time = 2;
-	google.protobuf.Int64Value end_time = 3;
+	string data_identity = 1;					// Data identity to read.
+	google.protobuf.Int64Value start_time = 2;	// Optional start time to include in the request, in nanoseconds since the Unix epoch (inclusive). May over-read before this point.
+	google.protobuf.Int64Value end_time = 3;	// Optional end time to include in the request, in nanoseconds since the Unix epoch (inclusive). May over-read after this point.
 }
 
+// Request for ReadTimestampedDataStream / ReadPeriodicDataStream / ReadRowDataStream.
 message ReadChannelDataStreamRequest {
-	string data_identity = 1;
-	google.protobuf.Int64Value start_time = 2;
-	google.protobuf.Int64Value end_time = 3;
-	string channels = 4;
+	string data_identity = 1;					// Data identity to read.
+	google.protobuf.Int64Value start_time = 2;	// Optional start time to include in the request, in nanoseconds since the Unix epoch (inclusive). May over-read before this point.
+	google.protobuf.Int64Value end_time = 3;	// Optional end time to include in the request, in nanoseconds since the Unix epoch (inclusive). May over-read after this point.
+	string channels = 4;						// Channels expression, as used in the REST API - e.g. "-5,7,B-D,14-"
 }
 
+// Writes RTA data to storage.
 service DataWriter {
-	rpc WriteDataStream(stream WriteDataStreamRequest)
-	returns (stream WriteDataStreamResponse);
+	// Writes a stream of RTA data.
+	rpc WriteDataStream(stream WriteDataStreamMessage)
+	returns (stream WriteDataStreamResponseMessage);
 }
 
+// Reads RTA data from storage.
 service DataReader {
+	// Reads timestamped data.
 	rpc ReadTimestampedDataStream(ReadChannelDataStreamRequest)
 	returns (stream rta.model.data.TimestampedDataList);
 
+	// Reads periodic data.
 	rpc ReadPeriodicDataStream(ReadChannelDataStreamRequest)
 	returns (stream rta.model.data.PeriodicDataList);
 
+	// Reads row data.
 	rpc ReadRowDataStream(ReadChannelDataStreamRequest)
 	returns (stream rta.model.data.RowDataList);
 
+	// Reads events.
 	rpc ReadEventsStream(ReadDataStreamRequest)
 	returns (stream rta.model.data.EventsList);
 }
-
-// TODO we could also consider a simple data management interface for list/delete

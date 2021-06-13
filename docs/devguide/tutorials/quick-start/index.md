@@ -263,7 +263,7 @@ You can create more sessions by running it again.
 
 Open the ATLAS Session Browser:
 
-==screenshot==
+<img src="/assets/screenshots/session-browser.png" alt="ATLAS Session Browser">
 
 Right-click on **Sources** and select **Service Connections...**
 

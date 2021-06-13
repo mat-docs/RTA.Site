@@ -7,58 +7,81 @@ import "google/protobuf/wrappers.proto";
 
 option csharp_namespace = "MAT.OCS.RTA.Toolkit.API.ConfigService";
 
+// Stream message for ConfigStore.PutConfigStream and ConfigStore.GetConfigStream.
 message ConfigStreamMessage {
+
+	// Message type.
 	oneof type {
-		ConfigInfo info = 1;
-		bytes piece = 2;
+		ConfigInfo info = 1;		// Metadata - must be the first message.
+		bytes piece = 2;			// Piece of config data.
 	}
 
+	// Config info.
 	message ConfigInfo {
-		string identifier = 1;
-		string content_type = 2;
+		string identifier = 1;		// Unique config identifier.
+		string content_type = 2;	// One of "application/vnd.mat.config+json" or "application/vnd.mat.config+ffc".
 	}
 }
 
+// Request for ConfigStore.PutConfig.
 message PutConfigRequest {
-	string identifier = 1;
-	string content_type = 2;
-	bytes data = 3;
+	string identifier = 1;			// Unique config identifier.
+	string content_type = 2;		// One of "application/vnd.mat.config+json" or "application/vnd.mat.config+ffc".
+	bytes data = 3;					// Config data.
 }
 
+// Request for ConfigStore.HasConfig.
 message HasConfigRequest {
-	string identifier = 1;
+	string identifier = 1;			// Unique config identifier.
 }
 
+// Request for ConfigStore.GetConfig.
 message GetConfigRequest {
-	string identifier = 1;
+	string identifier = 1;			// Unique config identifier.
 }
 
+// Response for ConfigStore.GetConfig.
 message GetConfigResponse {
-	string content_type = 1;
-	bytes data = 2;
+	string content_type = 1;		// One of "application/vnd.mat.config+json" or "application/vnd.mat.config+ffc".
+	bytes data = 2;					// Config data.
 }
 
+// Request for ConfigStore.DeleteConfig.
 message DeleteConfigRequest {
-	string identifier = 1;
+	string identifier = 1;			// Unique config identifier.
 }
 
+// Manages RTA Configuration.
+//
+// Configuration describes telemetry, in terms of parameters, events, formatting, etc.
 service ConfigStore {
 
+	// Stores a config unless it already exists.
+	// The request is size-limited to 4 MiB by default. For large configs, call PutConfigStream.
 	rpc PutConfig(PutConfigRequest)
 	returns (google.protobuf.Empty);
 	
+	// Stores a config as a stream unless it already exists.
+	// The first message in the stream must be info containing the config identifier and content type.
 	rpc PutConfigStream(stream ConfigStreamMessage)
 	returns (google.protobuf.Empty);
 
+	// Checks whether a config is stored.
 	rpc HasConfig(HasConfigRequest)
 	returns (google.protobuf.BoolValue);
 
+	// Gets a config.
+	// The response is size-limited to 4 MiB by default. For large configs, call GetRequestStream.
 	rpc GetConfig(GetConfigRequest)
 	returns (GetConfigResponse);
 
+	// Gets a config as a stream.
+	// The first message in the stream is info containing the config identifier and content type.
 	rpc GetConfigStream(GetConfigRequest)
 	returns (stream ConfigStreamMessage);
 
+	// Deletes a config if it exists, succeeding silently if it does not.
+	// Use with care. Unpublishing configuration will break any sessions that have it bound.
 	rpc DeleteConfig(DeleteConfigRequest)
 	returns (google.protobuf.Empty);
 

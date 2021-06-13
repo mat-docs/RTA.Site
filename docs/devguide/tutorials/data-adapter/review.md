@@ -140,14 +140,14 @@ The key modifications are:
 
 ### Controller
 
-The _MAT.OCS.RTA.Services.AspNetCore_ package provides a controller base class: `DataControllerV2`.
+The _MAT.OCS.RTA.Services.AspNetCore_ package provides a controller base class: `BaseDataServiceControllerV2`.
 
-This just needs sub-classing and annotating to expose it with the correct "route" (HTTP request path):
+This just needs sub-classing and annotating as shown:
 
-```c# hl_lines="1"
-    [Route("rta/v2/data/{identity}")]
+```c#
+    [Route("rta/v2")]
     [ApiController]
-    public class DemoDataController : DataControllerV2
+    public class DemoDataController : BaseDataServiceControllerV2
     {
         public DemoDataController(IEventStore eventStore, ISampleDataStore sampleDataStore) :
             base(eventStore, sampleDataStore)
@@ -156,28 +156,19 @@ This just needs sub-classing and annotating to expose it with the correct "route
     }
 ```
 
-Notice that the request path is not the same as the public [REST API](../../../api/index.md):
+!!! info
 
-=== "Data Adapter Route"
+    There are two sets of Controller base classes.
 
-        [Route("rta/v2/data/{identity}")]
+    *   `MAT.OCS.RTA.Services.AspNetCore.Controllers.API` provides controllers for the [RTA public API](../../../api/index.md), like the [Gateway Service](../../../services/rta-gatewaysvc/README.md).
+    *   `MAT.OCS.RTA.Services.AspNetCore.Controllers.Services` provides controllers for microservices like this data adapter.
 
-    `{identity}` is the _data identity_
+    There are small differences. For example the request route for data requests:
 
-=== "REST API Route"
+    *   RTA Public API: `/rta/v2/sessions/{sessionIdentity}/data/{type}/{channels}`
+    *   Data microservice: `/rta/v2/data/{dataIdentity}/{type}/{channels}`
 
-        [Route("rta/v2/sessions/{identity}/data")]
-
-    `{identity}` is the _session identity_
-
-Sub-paths:
-
-* `/timestamped/{channels}`
-* `/periodic/{channels}`
-* `/row/{channels}`
-* `/events`
-
-This emphasizes the difference between the _session identity_ &mdash; which is public &mdash; and the _data identity_ &mdash; which is private and might be bound to multiple sessions. The sub-paths are exactly the same, so it is not necessary to override methods in the `DataControllerV2` base class to change the routing.
+    This emphasizes the difference between the _session identity_ &mdash; which is public &mdash; and the _data identity_ &mdash; which is private and might be bound to multiple sessions.
 
 The base controller class depends on services implementing `IEventStore` and `ISampleDataStore` (defined in the _MAT.OCS.RTA.Services_ package).
 
@@ -343,29 +334,23 @@ The `Startup.cs` script is where ASP.NET services handle configuration, and setu
 Setting up the connection to the [Schema Mapping Service](../../../services/rta-schemamappingsvc/README.md):
 
 ```c#
-services.AddSingleton<ChannelBase>(sp => GrpcChannel.ForAddress("http://localhost:2682"));
+services.AddSingleton<ChannelBase>(_ => GrpcChannel.ForAddress("http://localhost:2682"));
 services.AddSingleton<SchemaMappingStore.SchemaMappingStoreClient>();
 ```
 
-### Controller and Store
+### Registering Services
 
-Registering the [Controller](#controller) and [Sample Data Store](#sample-data-store):
+Registering [Sample Data Store](#sample-data-store):
 
 ```c#
-services.AddTransient<DemoDataController>();
 services.AddTransient<IEventStore, DefaultEventStore>();
 services.AddTransient<ISampleDataStore, DemoSampleDataStore>();
 ```
 
-### RTA Library Support
-
 Boiler-plate to enable RTA library support:
 
 ```c#
-services.AddRTAFormatters();
-services.AddRTAResponseCompression();
-services.RemoveRTAMvcApplicationPart();
-services.DisableAuthorization();
+services.AddRTA();
 ```
 
 ### Respond to `GET /`

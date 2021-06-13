@@ -15,7 +15,7 @@ The project imports [NuGet Packages](../../../downloads/nuget.md) from the McLar
 
 ```xml
   <ItemGroup>
-    <PackageReference Include="MAT.OCS.RTA.Toolkit.API.GrpcClients" Version="0.7.0" />
+    <PackageReference Include="MAT.OCS.RTA.Toolkit.API.GrpcClients" Version="2.0.0" />
   </ItemGroup>
 ```
 
@@ -68,7 +68,7 @@ var requestStream = dataStream.RequestStream;
 The first message must be the data identity, so the service knows how to store the data:
 
 ```c#
-await requestStream.WriteAsync(new WriteDataStreamRequest
+await requestStream.WriteAsync(new WriteDataStreamMessage
 {
     DataIdentity = dataIdentity
 });
@@ -88,10 +88,16 @@ var burst = new PeriodicData
     Buffer = ByteString.CopyFrom(MemoryMarshal.AsBytes(burstSamples.AsSpan()))
 };
 
-await requestStream.WriteAsync(new WriteDataStreamRequest
+await requestStream.WriteAsync(new WriteDataStreamMessage
 {
     PeriodicData = burst
 });
+```
+
+Finally, complete the stream call:
+
+```c#
+await requestStream.CompleteAsync();
 ```
 
 !!! tip
@@ -290,9 +296,10 @@ These properties are mandatory:
 
 The additional properties reflect the state of the session after adding data:
 
-* _State_ &mdash; set to `closed` to indicate that no more data will be added
 * _TimeRange_ &mdash; to reflect the actual range of data in the session, in nanoseconds
 * _ConfigBindings_ &mdash; associate the session with the published configuration identifier
+
+If not otherwise specified, the initial state of the session is `closed`.
 
 === "C# Sample"
 
@@ -309,10 +316,6 @@ The additional properties reflect the state of the session after adding data:
         {
             new SessionUpdate
             {
-                SetState = (int)SessionState.Closed
-            },
-            new SessionUpdate
-            {
                 SetTimeRange = new()
                 {
                     StartTime = startNanos,
@@ -327,7 +330,7 @@ The additional properties reflect the state of the session after adding data:
                     {
                         new ConfigBinding
                         {
-                            ConfigIdentifier = configIdentifier
+                            Identifier = configIdentifier
                         }
                     }
                 }

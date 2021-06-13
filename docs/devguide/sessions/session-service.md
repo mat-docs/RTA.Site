@@ -33,14 +33,8 @@ If the session _does_ exist, only the `Updates` are applied.
         CreateIfNotExists = new()
         {
             Identifier = "Demo Session",
-            Timestamp = "2021-03-14T12:15:30Z"
-        },
-        Updates =
-        {
-            new SessionUpdate
-            {
-                SetState = (int)SessionState.Closed
-            }
+            Timestamp = "2021-03-14T12:15:30Z",
+            State = (int)SessionState.Closed
         }
     });
     ```
@@ -102,12 +96,12 @@ Each `SessionUpdate` can only do one operation:
 Updates to collections offer a consistent pattern of operations:
 
 * `Set...` &mdash; overwrites the collection
-* `Put...` &mdash; adds and updates items
+* `Update...` &mdash; adds and updates items
 * `Delete...` &mdash; deletes the specified items
 
 For example, when defining [relationships](relationships.md), these two samples are equivalent:
 
-=== "Using `Put` and `Delete` to modify data"
+=== "Using `Update` and `Delete` to modify data"
 
     ??? example "Starting with `"ref:aaa"`, `"ref:bbb"`, `"ref:ccc"`"
 
@@ -133,7 +127,7 @@ For example, when defining [relationships](relationships.md), these two samples 
         });
         ```
 
-    Merge update using `Put` and `Delete`:
+    Merge update using `Update` and `Delete`:
 
     ```c#
     await sessionClient.CreateOrUpdateSessionAsync(new CreateOrUpdateSessionRequest
@@ -143,7 +137,7 @@ For example, when defining [relationships](relationships.md), these two samples 
         {
             new SessionUpdate
             {
-                PutRefAnchors = new()
+                UpdateRefAnchors = new()
                 {
                     RefUris =
                     {
@@ -174,7 +168,7 @@ For example, when defining [relationships](relationships.md), these two samples 
 
     !!! note
 
-        Notice that the overlap with `"ref:ccc"` is allowed following usual REST-style PUT semantics.
+        Notice that the overlap with `"ref:ccc"` is allowed. This is similar to JSON patching.
 
 === "Using `Set` to overwrite"
 
@@ -249,9 +243,7 @@ var session = await sessionClient.GetSessionAsync(new GetSessionRequest
     Elements = new()
     {
         Json = true,
-        RefAnchors = true,
-        ChildOfRefs = true,
-        AlternateOfRefs = true,
+        Refs = true,
         Folders = true,
         DataBindings = true
     }
