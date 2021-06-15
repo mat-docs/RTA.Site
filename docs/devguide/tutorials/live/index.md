@@ -50,7 +50,7 @@ services:
 
 Modify the `docker-compose.yaml` to add the [Stream Service](https://hub.docker.com/r/mclarenapplied/rta-streamsvc):
 
-```yaml hl_lines="8-12"
+```yaml hl_lines="8-14"
 services:
     redis:
         image: redis:6.2
@@ -119,20 +119,17 @@ By default, the demo will create a series of five-minute sessions.
 
 ### Setup the live connection
 
-Open the ATLAS Session Browser:
-
-==screenshot==
+Open the ATLAS Session Browser.
 
 Right-click on **Sources** and select **Service Connections...**
 
 Select the service connection you previously defined, and click **Properties** to open a dialog.
 
-Fill in the  **Web Socket URI**: `ws://localhost:8180`
+Fill in the  **Web Socket URI**: `ws://localhost:8180/`
 
 Close the dialogs, and right-click **Sources** and select **Refresh**.
 
-Un-tick and re-tick the _Demo_ source to make sure it picks up the new settings, and press the **Refresh** button on the right-hand-side of the dialog.  
-You should see your existing sessions, and a live session at the top of the list.
+Un-tick and re-tick the _localhost_ source to make sure it picks up the new settings, and press the **Refresh** button on the right-hand-side of the dialog. You should see your existing sessions, and a live session at the top of the list.
 
 ??? notes "Troubleshooting"
 
@@ -142,6 +139,8 @@ You should see your existing sessions, and a live session at the top of the list
     * Open the URI in a web browser the the 'http://' scheme and make sure you are communicating with the [Stream Service](../../../services/rta-streamsvc/README.md)
     * Restart ATLAS and try again
     * Check the ATLAS log file (**Tools** &gt; **View Log Folder**), which may explain what the problem is
+
+    If you _only_ see live data, with no back-fill to the start of the live session, this means that data is not loading from InfluxDB.
 
 ### Test the session
 
@@ -158,6 +157,9 @@ If you unload and reload the session, you should see that all the data is still 
 
     This is a temporary limitation in the Stream Service implementation that will be fixed in a future release.  
     Redis should contain enough streamed data to seamlessly cover this gap.
+
+    You may also notice that the time-range in the displays extends back beyond the start of the session.  
+    This appears to be a time-zone issue, which will be looked at and fixed in a future development release.
 
 ## Next Steps
 

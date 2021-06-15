@@ -47,6 +47,12 @@ Publishing the session before the data is written requires greater attention to 
 
     Always transition to `open` before data starts streaming.
 
+## Streaming to InfluxDB
+
+Compared to the [previous tutorial](../influx/index.md), the writes to [InfluxDB](https://www.influxdata.com/products/influxdb/) need to be broken up. This ensures that data is flushed and visible in the database.
+
+In this example, this is done at the same time as [Session Model Updates](#session-model-updates).
+
 ## Streaming to Redis
 
 Live data is both written to [InfluxDB](https://www.influxdata.com/products/influxdb/) and buffered to [Redis Streams](https://redis.io/topics/streams-intro) &mdash; similar in design to [Apache Kafka](https://kafka.apache.org/).

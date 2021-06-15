@@ -67,17 +67,21 @@ Verify that it is not running by browsing [http://localhost:8080/](http://localh
 
 Create a directory to hold the Docker Compose file for the tutorials &mdash; e.g. `rta-tutorials`
 
+You'll reuse and extend this script in the other tutorials.
+
 !!! tip
 
-    You'll reuse and extend this script in the other tutorials.
+    [Visual Studio Code](https://code.visualstudio.com/) is a great YAML editor.
+
+    *   YAML is whitespace-sensitive.
+    *   Indentation as seen below creates a nested object structure; hyphens indicate a list.
+    *   Strings can be double-quoted, single-quoted or not quoted at all &mdash; but it's best to use quotes if you want to make absolutely sure your markup is going to be parsed as a string, not a number or a boolean. [Be aware that `yes` and `no` will get parsed as booleans unless quoted as `"yes"` and `"no"`](https://medium.com/@lefloh/lessons-learned-about-yaml-and-norway-13ba26df680).
 
 Save and edit this script into the directory you created, as `docker-compose.yaml`:
 
 === "Windows"
 
     ```yaml
-    version: "3.9"
-
     services:
         rta-sessionsvc-init:
             image: mclarenapplied/rta-sessionsvc:latest
@@ -139,8 +143,6 @@ Save and edit this script into the directory you created, as `docker-compose.yam
 === "Linux/Mac"
 
     ```yaml
-    version: "3.9"
-
     services:
         rta-sessionsvc-init:
             image: mclarenapplied/rta-sessionsvc:latest
@@ -391,7 +393,7 @@ to this:
 ```c#
 using var sessionChannel = GrpcChannel.ForAddress("http://localhost:2652");
 using var configChannel = GrpcChannel.ForAddress("http://localhost:2662");
-using var dataChannel = GrpcChannel.ForAddress("http://localhost:2676");
+using var dataChannel = GrpcChannel.ForAddress("http://localhost:2672");
 var sessionClient = new SessionStore.SessionStoreClient(sessionChannel);
 var configClient = new ConfigStore.ConfigStoreClient(configChannel);
 var dataClient = new DataWriter.DataWriterClient(dataChannel);

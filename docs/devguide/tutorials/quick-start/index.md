@@ -53,27 +53,26 @@ It provides session management, stores configuration, and can also store and ser
 
     Use these paths in the command below for volume mounts (`-v`).
 
-    If you are running PostgreSQL outside Docker on your host machine, use [`host.docker.internal`](https://docs.docker.com/docker-for-windows/networking/#use-cases-and-workarounds) in the connection string below.
+    This example assumes you are running PostgreSQL on your host machine, accessed through [`host.docker.internal`](https://docs.docker.com/docker-for-windows/networking/#use-cases-and-workarounds) in the connection string below.
 
-    Update the command below with the hostname (if not `localhost`) and user/password.  
+    Update the command below with the hostname (if not `host.docker.internal`) and user/password.  
     By default, [RTA Server will initialize the database](../../../services/rta-server/README.md/#init-store) using these credentials.
 
     In PowerShell:
 
-    ``` powershell
+    ``` powershell hl_lines="4"
     docker run --rm `
         -v "C:\rta\configs:/data/rta-configs" `
         -v "C:\rta\data:/data/rta-data" `
-        -e "RTA_PostgresConnectionString=Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=hunter2;" `
+        -e "RTA_PostgresConnectionString=Server=host.docker.internal;Port=5432;Database=postgres;User Id=postgres;Password=hunter2;" `
         -e "RTA_Store=File" `
         -p 8080:8080 -p 8082:8082 `
         mclarenapplied/rta-server
     ```
 
-
 === "Windows: rta-server.exe"
 
-    If Docker is not available in your development environment, you can [download](../../../downloads/services.md#windows) and run the service as an executable.
+    If Docker is not available in your development environment, you can [download](../../../downloads/services.md#binaries) and run the service as an executable.
 
     Create convenient directories to store data and configuration.
 
@@ -141,10 +140,11 @@ In a web browser, go to [http://localhost:8080](http://localhost:8080)
 You should see some text similar to this:
 
 ```
-MAT.OCS.RTA.Toolkit.Hosts.Server 0.0.0.0
+MAT.OCS.RTA.Toolkit.Hosts.Server 2.0.0.0
 Provides RTA Toolkit services as a single deployment
     Grpc: enabled
-    DataWriter: enabled
+    Data write: enabled
+    Data admin: enabled
 
 Metrics: /metrics
 Health: /health
@@ -261,9 +261,7 @@ You can create more sessions by running it again.
 
 ### Setup the connection
 
-Open the ATLAS Session Browser:
-
-<img src="/assets/screenshots/session-browser.png" alt="ATLAS Session Browser">
+Open the ATLAS Session Browser.
 
 Right-click on **Sources** and select **Service Connections...**
 
@@ -277,25 +275,58 @@ From the **Service Connection Manager** dialog, add a new connection like this:
 
 * **URI**: `http://localhost:8080`
 * **Web Socket URI**: _(blank)_ 
-* **Friendly Name**: `Demo`
+* **Friendly Name**: `localhost`
 
 Close the dialogs, and right-click **Sources** and select **Refresh**.  
-The _Demo_ source should appear.
+The _localhost_ source should appear.
 
-Tick the _Demo_ source and press the **Refresh** button on the right-hand-side of the dialog.  
+Tick the _localhost_ source and press the **Refresh** button on the right-hand-side of the dialog.  
 You should see one or more sessions.
+
+=== "Open Session Browser"
+
+    <img src="/assets/screenshots/quickstart/session-browser-blank.png" alt="ATLAS Session Browser - no connections">
+
+=== "Right-click to add Service Connection"
+
+    <img src="/assets/screenshots/quickstart/session-browser-menu.png" alt="ATLAS Session Browser - connections menu">
+
+=== "Dialog"
+
+    <img src="/assets/screenshots/quickstart/session-browser-dialog.png" alt="ATLAS Session Browser - Service Connections dialog">
+
+=== "Add Service Connection"
+
+    <img src="/assets/screenshots/quickstart/session-browser-connection-dialog.png" alt="ATLAS Session Browser - Adding a connection">
+
+=== "Tick Source to list sessions"
+
+    <img src="/assets/screenshots/quickstart/session-browser-unloaded.png" alt="ATLAS Session Browser - Session Listing">
 
 ??? notes "Troubleshooting"
 
-    * If the _Demo_ source is Red, maybe you mistyped the URI or the service isn't running?
+    * If the _localhost_ source is Red, maybe you mistyped the URI or the service isn't running?
     * Do you have the right version of ATLAS (see [Prerequisites](#prerequisites))?
 
 ### Test the session
 
 Double-click to load a session.
 
-Add a Waveform display, and press `P` to add parameters using the _Parameter Browser_.  
+Add a Waveform display, and press `P` to add parameters using the _Parameter Browser_ by double-clicking or dragging.
+
 You should see waveform traces.
+
+=== "Open Parameter Browser"
+
+    <img src="/assets/screenshots/quickstart/parameter-browser-menu.png" alt="ATLAS Parameter Browser menu">
+
+=== "Add Parameters to Waveform"
+
+    <img src="/assets/screenshots/quickstart/parameter-browser.png" alt="ATLAS Parameter Browser">
+
+=== "Waveform display"
+
+    <img src="/assets/screenshots/quickstart/waveform.png" alt="ATLAS Waveform display">
 
 ## Next Steps
 

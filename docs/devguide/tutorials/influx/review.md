@@ -11,7 +11,7 @@ This demo project illustrates the data adapter pattern, where data is served to 
 The sample project has four key steps:
 
 ```c# linenums="1"
-var dataIdentity = await WriteDataAsync(influxUri, sessionIdentity, startNanos, durationNanos, intervalNanos);
+var dataIdentity = await WriteDataAsync(influxUri, sessionTag, startNanos, durationNanos, intervalNanos);
 await WriteSchemaMappingAsync(schemaMappingClient, dataIdentity);
 var configIdentifier = await WriteConfigAsync(configClient);
 await WriteSessionAsync(sessionClient, sessionIdentity, dataIdentity, timestamp, startNanos, durationNanos, configIdentifier);
@@ -22,7 +22,7 @@ These steps are:
 1. Write data to [InfluxDB](https://www.influxdata.com/products/influxdb/);  
    _This step is just providing example data, and really has nothing RTA-specific at all._
 2. Describe how the database fields will map onto [Timestamped Data requests](../../../../api/#operation/get-timestamped-data);  
-   _The data adapter (RTA [Influx Data Service](../../../services/rta-influxdatasvc/README.md)) will use this to handle the requests._
+   _The data adapter ([Influx Data Service](../../../services/rta-influxdatasvc/README.md)) will use this to handle the requests._
 3. Describe the fields as [Configuration](../../configuration/index.md);  
    _ATLAS will use this to show the user can see what parameters (fields) are available._
 4. Publish the [Session](../../sessions/index.md);  
@@ -123,9 +123,9 @@ The [Influx Data Service README](../../../services/rta-influxdatasvc/README.md#p
 
 !!! warning "Security Note"
 
-    Take care to avoid query injection vulnerabilities with this _data identity_.
+    Take care to avoid query injection vulnerabilities with this data identity.
 
-    Unescaped user-supplied data could allow attackers to manipulate the data retrieval query.
+    Un-escaped user-supplied data could allow attackers to manipulate the data retrieval query.
 
 ## Configuration and Session
 
