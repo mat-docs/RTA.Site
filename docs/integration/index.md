@@ -41,7 +41,7 @@ These Toolkit Services provide [gRPC](https://grpc.io/) services for integration
 
 [gRPC](https://grpc.io/) is a modern, high performance framework for making service calls. It supports all popular programming languages, and the services are fully-described with schemas &mdash; so you get a high-quality client library that will work with your existing software stack, and high-quality developer tools to guide use of the API.
 
-You can deploy these services on [Windows](../downloads/services.md#windows) or [Linux](../downloads/services.md#windows), and on-premises or in the Cloud using our [Docker images](../downloads/services.md#docker). Our services are specifically designed to work well with [Kubernetes](https://kubernetes.io/) and [AWS](https://aws.amazon.com/).
+You can deploy these services on [Windows](../downloads/services.md#binaries) or [Linux](../downloads/services.md#binaries), and on-premises or in the Cloud using our [Docker images](../downloads/services.md#docker). Our services are specifically designed to work well with [Kubernetes](https://kubernetes.io/) and [AWS](https://aws.amazon.com/).
 
 ## Standalone Options
 

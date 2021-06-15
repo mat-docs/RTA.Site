@@ -17,10 +17,6 @@ Images are available from [Docker Hub](https://hub.docker.com/u/mclarenapplied):
 * [RTA Schema Mapping Service](https://hub.docker.com/r/mclarenapplied/rta-schemamappingsvc) &mdash; `mclarenapplied/rta-schemamappingsvc`
 * [RTA Influx Data Service](https://hub.docker.com/r/mclarenapplied/rta-influxdatasvc) &mdash; `mclarenapplied/rta-influxdatasvc`
 
-## Windows
+## Binaries
 
-[Download location pending]
-
-## Linux
-
-[Download location pending]
+* v2.0.0 &mdash; [Windows (64-bit)](https://github.com/mat-docs/RTA.Releases/releases/download/v2.0.0/toolkit-win-x64.zip) / [Linux (64-bit)](https://github.com/mat-docs/RTA.Releases/releases/download/v2.0.0/toolkit-linux-x64.zip)

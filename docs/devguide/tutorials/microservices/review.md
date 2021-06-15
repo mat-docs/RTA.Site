@@ -42,7 +42,7 @@ The `--InitStoreAndExit=true` instruction tells the service to initialize or upg
 
 !!! warning
 
-    This pattern is not robust enough for production.      
+    This pattern is not quite robust enough for production.      
     Docker starts `rta-sessionsvc` immediately after `rta-sessionsvc-init`, so it is likely that the database will not be fully-initialized by the time this happens.
 
     In production, it would be better to have this happen as a scripted step that completes before rolling out the rest of the services.
