@@ -10,6 +10,7 @@ This can work with a wide range of technologies, such as:
 * [MongoDB](https://www.mongodb.com/), [Couchbase](https://www.couchbase.com/) and other document databases
 * [Parquet](https://parquet.apache.org/), [HDF5](https://www.hdfgroup.org/solutions/hdf5/) and other file formats
 * [SQL Server](https://www.microsoft.com/en-gb/sql-server), [PostgreSQL](https://www.postgresql.org/), [MySQL](https://www.mysql.com/)...
+* New _mysterious database_
 
 ## Live Monitoring
 
