@@ -1,33 +1,34 @@
 [build]
-publish = "site"
 command = "mkdocs build"
+publish = "site"
 
-# minified and hashed name
 [[headers]]
   for = "*.min.js"
   [headers.values]
     Cache-Control = "public, max-age=604800, immutable"
 
-# minified and hashed name
 [[headers]]
   for = "*.min.css"
   [headers.values]
     Cache-Control = "public, max-age=604800, immutable"
 
-# non-critical if stale
+[[headers]]
+  for = "assets/swoosh/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, immutable"
+
 [[headers]]
   for = "sitemap.xml"
   [headers.values]
     Cache-Control = "public, max-age=300"
 
-# non-critical if stale
 [[headers]]
   for = "search/search_index.json"
   [headers.values]
     Cache-Control = "public, max-age=300"
 
-# non-critical if stale
 [[headers]]
   for = "assets/images/favicon.png"
   [headers.values]
     Cache-Control = "public, max-age=3600"
+  

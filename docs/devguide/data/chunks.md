@@ -91,7 +91,7 @@ The _MAT.OCS.RTA.Services.AspNetCore_ [NuGet Package](../../downloads/nuget.md) 
 
 This section describes some important constraints, using RFC&nbsp;2119 language (MUST, SHOULD, etc).
 
-These are important if you are implementing a [Data Service](../../integration/data-services.md).
+These are important if you are implementing a [Data Service](../../introduction/data-services.md).
 
 ### Size Limits
 

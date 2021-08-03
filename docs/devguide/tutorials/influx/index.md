@@ -1,6 +1,6 @@
 # InfluxDB Data Adapter &mdash; Walkthrough
 
-This tutorial stores and serves data directly from [InfluxDB](https://www.influxdata.com/products/influxdb/), using the [microservices architecture](../../../integration/architectures#microservices) introduced in [Tutorial 02](../microservices/index.md).
+This tutorial stores and serves data directly from [InfluxDB](https://www.influxdata.com/products/influxdb/), using the [microservices architecture](../../../introduction/architectures#microservices) introduced in [Tutorial 02](../microservices/index.md).
 
 At the end, you'll have ATLAS connected to a popular off-the-shelf timeseries database.
 
