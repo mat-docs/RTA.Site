@@ -1065,7 +1065,7 @@ components:
 
             This is done so that sessions can contain configuration from multiple independently-compiled "apps",
             and shared across sessions. This turns out to be important for
-            [scalability](../integration/configuration.md#designed-for-scale) when sessions have 10s of thousands of parameters.
+            [scalability](../introduction/configuration.md#designed-for-scale) when sessions have 10s of thousands of parameters.
 
             Many deployments will use a single configuration binding with no offset.          
           type: integer

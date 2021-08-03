@@ -285,23 +285,23 @@ You should see one or more sessions.
 
 === "Open Session Browser"
 
-    <img src="/assets/screenshots/quickstart/session-browser-blank.png" alt="ATLAS Session Browser - no connections">
+    <img src="assets/session-browser-blank.png" alt="ATLAS Session Browser - no connections">
 
 === "Right-click to add Service Connection"
 
-    <img src="/assets/screenshots/quickstart/session-browser-menu.png" alt="ATLAS Session Browser - connections menu">
+    <img src="assets/session-browser-menu.png" alt="ATLAS Session Browser - connections menu">
 
 === "Dialog"
 
-    <img src="/assets/screenshots/quickstart/session-browser-dialog.png" alt="ATLAS Session Browser - Service Connections dialog">
+    <img src="assets/session-browser-dialog.png" alt="ATLAS Session Browser - Service Connections dialog">
 
 === "Add Service Connection"
 
-    <img src="/assets/screenshots/quickstart/session-browser-connection-dialog.png" alt="ATLAS Session Browser - Adding a connection">
+    <img src="assets/session-browser-connection-dialog.png" alt="ATLAS Session Browser - Adding a connection">
 
 === "Tick Source to list sessions"
 
-    <img src="/assets/screenshots/quickstart/session-browser-unloaded.png" alt="ATLAS Session Browser - Session Listing">
+    <img src="assets/session-browser-unloaded.png" alt="ATLAS Session Browser - Session Listing">
 
 ??? notes "Troubleshooting"
 
@@ -318,15 +318,15 @@ You should see waveform traces.
 
 === "Open Parameter Browser"
 
-    <img src="/assets/screenshots/quickstart/parameter-browser-menu.png" alt="ATLAS Parameter Browser menu">
+    <img src="assets/parameter-browser-menu.png" alt="ATLAS Parameter Browser menu">
 
 === "Add Parameters to Waveform"
 
-    <img src="/assets/screenshots/quickstart/parameter-browser.png" alt="ATLAS Parameter Browser">
+    <img src="assets/parameter-browser.png" alt="ATLAS Parameter Browser">
 
 === "Waveform display"
 
-    <img src="/assets/screenshots/quickstart/waveform.png" alt="ATLAS Waveform display">
+    <img src="assets/waveform.png" alt="ATLAS Waveform display">
 
 ## Next Steps
 

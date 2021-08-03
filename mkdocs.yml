@@ -1,19 +1,34 @@
 site_name: 'ATLAS Integration Guide'
-site_description: 'F1-grade engineering telemetry tooling'
+site_description: 'Integrating McLaren ATLAS with Existing Systems'
 docs_dir: 'docs'
 repo_url: https://github.com/mat-docs/RTA.Site
+site_url: https://docs.atlas.mclarenapplied.com/integration/rta/sdk/
+
+theme:
+  name: 'material'
+  palette:
+    primary:  'black'
+    accent:   'indigo'
+  custom_dir: 'overrides'
+  # assets/swoosh is cached aggressively - rename if icons change
+  favicon:    'assets/swoosh/favicon.png'
+  logo:       'assets/swoosh/logo.png'
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.tabs
+    - toc.integrate
+
+copyright: Copyright &copy; 2021 McLaren Applied Ltd.
 
 nav:
-  - Home:
-    - ATLAS 10:                   index.md
-    - Features:                   home/features.md
-    - System Requirements:        home/sysreqs.md
-  - Integration Overview:
-    - Introduction:               integration/index.md
-    - Architectures:              integration/architectures.md
-    - Data Services:              integration/data-services.md
-    - Sessions:                   integration/sessions.md
-    - Configuration:              integration/configuration.md
+  - Docs Portal:                  https://mclaren-atlas-docs.netlify.app/integration/rta/
+  - Introduction:
+    - Overview:                   index.md
+    - Architectures:              introduction/architectures.md
+    - Data Services:              introduction/data-services.md
+    - Sessions:                   introduction/sessions.md
+    - Configuration:              introduction/configuration.md
   - Developer Guide:
     - Overview:                   devguide/index.md
     - Tutorials:
@@ -94,16 +109,11 @@ nav:
     - Code Samples:               downloads/samples.md
   - REST API:                     api/index.md
 
-theme:
-  name: 'material'
-  custom_dir: overrides
-  icon:
-    repo: fontawesome/brands/github
-  features:
-    - navigation.tabs
-    - toc.integrate
-
-copyright: Copyright &copy; 2021 McLaren Applied Ltd.
+plugins:
+  - search
+  - redirects:
+      redirect_maps:
+        integration/index.md:     index.md
 
 markdown_extensions:
   - abbr
