@@ -7,17 +7,20 @@ site_url: https://docs.atlas.mclarenapplied.com/integration/
 theme:
   name: 'material'
   palette:
-    primary:  'black'
+    primary:  'orange'
     accent:   'indigo'
   custom_dir: 'overrides'
-  # assets/swoosh is cached aggressively - rename if icons change
-  favicon:    'assets/swoosh/favicon.png'
-  logo:       'assets/swoosh/logo.png'
+  # assets/swoosh* is cached aggressively - rename if icons change
+  favicon:    'assets/swoosh-black/favicon.png'
+  logo:       'assets/swoosh-black/logo.png'
   icon:
     repo: fontawesome/brands/github
   features:
     - navigation.tabs
     - toc.integrate
+
+extra_css:
+  - stylesheets/extra.css
 
 copyright: Copyright &copy; 2021 McLaren Applied Ltd.
 
