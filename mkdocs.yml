@@ -25,7 +25,7 @@ extra_css:
 copyright: Copyright &copy; 2021 McLaren Applied Ltd.
 
 nav:
-  - ⇱ Docs Portal:                https://mclaren-atlas-docs.netlify.app/
+  - ⇱ Docs Portal:                https://docs.atlas.mclarenapplied.com/
   - Introduction:
     - Overview:                   index.md
     - Architectures:              introduction/architectures.md
