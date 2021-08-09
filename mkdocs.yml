@@ -74,7 +74,7 @@ nav:
       - Chunks:                   devguide/data/chunks.md
     - Live-Streaming Data:
       - Live-Streaming Basics:    devguide/live/index.md
-      - Web Socket Protocol:      devguide/live/websockets.md
+      - WebSocket Protocol:       devguide/live/websockets.md
       - Streaming to Redis:       devguide/live/redis.md
     - Protobuf Schemas:
       - Overview:                 devguide/protobuf/index.md

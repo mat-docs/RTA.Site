@@ -28,7 +28,7 @@ They can also be deployed as Windows or Linux binaries on a server or laptop.
 : Reverse proxy, typically used in front of the **Session Service**, **Config Service**, and **Data Services**.
 
 [RTA Stream Service](rta-streamsvc/README.md)
-: Web Socket server for streaming live session updates.
+: WebSocket server for streaming live session updates.
 
 [RTA Schema Mapping Service](rta-schemamappingsvc/README.md)
 : Repository for mappings between a source schema and the RTA domain model.

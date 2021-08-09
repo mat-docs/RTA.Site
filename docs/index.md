@@ -13,7 +13,7 @@ This can work with a wide range of technologies, such as:
 
 ## Live Monitoring
 
-The RTA specification includes [Web Socket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) streaming for live telemetry monitoring.
+The RTA specification includes [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) streaming for live telemetry monitoring.
 
 Our reference architecture recommends implementing this by taking a feed from your acquisition pipeline, and buffering it through [Redis](https://redis.io/) &mdash; which decouples the client activity and allows users to join the session at any point.
 
@@ -21,7 +21,7 @@ Our reference architecture recommends implementing this by taking a feed from yo
 
 This enables ATLAS to display data in real-time even if your acquisition pipeline cannot write to storage in real-time, or if the storage is not available until acquisition is complete &mdash; common with file formats.
 
-When users open live sessions, ATLAS selectively subscribes to the parameters on display using a [Web Socket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) connection, and the [Redis](https://redis.io/) buffer covers the gap until data is flushed to storage. Users can get a complete and real-time view of the data even when joining hours into a session.
+When users open live sessions, ATLAS selectively subscribes to the parameters on display using a [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) connection, and the [Redis](https://redis.io/) buffer covers the gap until data is flushed to storage. Users can get a complete and real-time view of the data even when joining hours into a session.
 
 ## Toolkit Services
 

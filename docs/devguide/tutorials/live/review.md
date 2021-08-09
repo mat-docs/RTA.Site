@@ -6,7 +6,7 @@
 
 The demo project illustrates a pattern where live data is fed to ATLAS around the side of the main data store.
 
-The live stream is buffered through [Redis](https://redis.io/), and then selectively distributed to clients using [Web Sockets](https://en.wikipedia.org/wiki/WebSocket). This means that clients are never directly interacting with the ingest process, and the write-latency of the data store becomes less important.
+The live stream is buffered through [Redis](https://redis.io/), and then selectively distributed to clients using [WebSockets](https://en.wikipedia.org/wiki/WebSocket). This means that clients are never directly interacting with the ingest process, and the write-latency of the data store becomes less important.
 
 ## Service Calls
 
@@ -137,7 +137,7 @@ Serializing and sending the [Session Model](../../sessions/model.md#serializing-
 
 ### Session Model Updates
 
-The [Session](../../sessions/index.md) needs to be available from both the REST API and the Web Socket.
+The [Session](../../sessions/index.md) needs to be available from both the REST API and the WebSocket.
 
 !!! important
 

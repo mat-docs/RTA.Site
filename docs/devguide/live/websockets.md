@@ -1,3 +1,3 @@
-# Web Socket Protocol
+# WebSocket Protocol
 
 [Placeholder - docs pending]
