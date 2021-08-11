@@ -48,3 +48,29 @@ it could be milliseconds or hours.
 The _MAT.OCS.RTA.StreamBuffer_ [NuGet Package](../../downloads/nuget.md) (.NET Core) provides an implementation
 for ingest processes to send data to Redis, and the [protocol](redis.md) is documented for the benefit of
 ingest pipelines written in other languages.
+
+## Complications
+
+The live stream may not originate in the same process that writes data to persistent storage.  
+This is likely when integrating with existing infrastucture or using off-the-shelf connectors.
+
+==diagrams needed==
+
+This raises several complications:
+
+_Difficult to synchronize session metadata_
+:   The process writing to persistent storage might have more metadata available
+    than the process creating the live data stream.
+
+    The client needs to mitigate this by combining metadata from the REST API and WebSocket using some heuristics.
+
+_Difficult to track how much data has been flushed_
+:   Many storage technologies do not guarantee immediate consistency, and separation between ingest processes can make
+    it nearly impossible to determine when data has been flushed with perfect accuracy. If the flush point is not known,
+    there cannot generally be a seamless join between the REST API and WebSocket streaming data.
+
+    There are strategies that might mitigate this in specific situations &mdash; such as inserting checkpoints or tracking
+    progress based on time &mdash; but in general it is more robust simply to configure the server environment to buffer 
+    stream data in Redis for a fixed period based on the known system characteristics.
+    
+    The client needs to mitigate this by merging data where there is an overlap.
