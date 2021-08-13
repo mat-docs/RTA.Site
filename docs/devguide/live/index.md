@@ -25,9 +25,8 @@ A WebSocket URI uses the `ws://` or `wss://` scheme (equivalent to `http://` and
         wss://example.com/rta/v2/sessions/abc123/stream
 
 The server immediately starts sending session metadata updates using a [simple protobuf-based protocol](websockets.md),
-and clients can send requests to subscribe to events and data.
-
-The flow of data is selective and predominantly unidirectional, so it is both efficient and insensitive to connection latency.
+and clients can send requests to subscribe to events and data. The flow of data is selective and predominantly unidirectional,
+so it is both efficient and insensitive to connection latency.
 
 ## Redis Communication
 
@@ -35,7 +34,7 @@ The [Stream Service](../../services/rta-streamsvc/README.md) provides a referenc
 [WebSocket protocol](websockets.md) and receives its data for distribution via [Redis](https://redis.io/),
 which acts as a broker between the ingest points and the edge services.
 
-==TODO diagram here==
+<object type="image/svg+xml" data="assets/redis.svg" class="diagram" title="Architecture diagram showing Redis as a buffer"></object>
 
 This decoupling helps ensure that edge services can be scaled and fault-tolerant, and ingest processes can
 be short-lived and unaffected by client activity.
@@ -54,7 +53,7 @@ ingest pipelines written in other languages.
 The live stream may not originate in the same process that writes data to persistent storage.  
 This is likely when integrating with existing infrastucture or using off-the-shelf connectors.
 
-==diagrams needed==
+<object type="image/svg+xml" data="assets/complications.svg" class="diagram" title="Architecture diagram showing separate writer and streaming ingest processes"></object>
 
 This raises several complications:
 
@@ -62,7 +61,8 @@ _Difficult to synchronize session metadata_
 :   The process writing to persistent storage might have more metadata available
     than the process creating the live data stream.
 
-    The client needs to mitigate this by combining metadata from the REST API and WebSocket using some heuristics.
+    The client needs to mitigate this by combining metadata from the REST API and WebSocket using some heuristics,
+    and there are some [guidelines to mitigate this issue](redis.md#session-metadata-updates).
 
 _Difficult to track how much data has been flushed_
 :   Many storage technologies do not guarantee immediate consistency, and separation between ingest processes can make
