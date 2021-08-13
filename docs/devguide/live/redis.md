@@ -13,8 +13,7 @@ and the [Stream Service](../../services/rta-streamsvc/README.md) implementing th
     * it's easier to implement lookups for the current [Session JSON](../sessions/index.md) and time-range
     * it's then also available for caching data from the [REST API](../../api/index.md) (likely to be needed at some point)
 
-    Unfortunately, modern versions of [Redis](https://redis.io/) do not run natively on Windows, so
-    [Docker](https://hub.docker.com/_/redis) is typically required.
+    [Redis](https://redis.io/) can be run on Windows using [Docker](https://hub.docker.com/_/redis).
 
 [Redis](https://redis.io/) provides the communication layer, and this page defines a protocol layered over the top.
 
