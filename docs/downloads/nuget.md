@@ -23,7 +23,7 @@ A free [GitHub](https://github.com/) account is required.
 
     | Package                             | Description                                                                |
     |-------------------------------------|----------------------------------------------------------------------------|
-    | MAT.OCS.RTA.API                     | RTA client library, supporting the RTA REST API and Web Socket interface.  |
+    | MAT.OCS.RTA.API                     | RTA client library, supporting the RTA REST API and WebSocket interface.  |
     | MAT.OCS.RTA.Model                   | RTA data model, including classes modelling the API responses.             |
     | MAT.OCS.RTA.Services                | Service interfaces to be implemented by customer-specific backends.        |
     | MAT.OCS.RTA.Services.AspNetCore     | ASP.NET API Controllers and Formatters implementing the RTA specification. |

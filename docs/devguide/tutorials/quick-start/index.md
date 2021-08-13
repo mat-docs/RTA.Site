@@ -274,7 +274,7 @@ Right-click on **Sources** and select **Service Connections...**
 From the **Service Connection Manager** dialog, add a new connection like this:
 
 * **URI**: `http://localhost:8080`
-* **Web Socket URI**: _(blank)_ 
+* **WebSocket URI**: _(blank)_ 
 * **Friendly Name**: `localhost`
 
 Close the dialogs, and right-click **Sources** and select **Refresh**.  
