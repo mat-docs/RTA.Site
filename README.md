@@ -1,6 +1,6 @@
 # ATLAS Integration Guide
 
-URL: [docs.atlas.mclarenapplied.com/integration/rta/sdk/](https://docs.atlas.mclarenapplied.com/integration/rta/sdk/)  
+URL: [atlas.mclarenapplied.com/integration/rta/sdk/](https://atlas.mclarenapplied.com/integration/rta/sdk/)  
 Hosting: [mclaren-rta.netlify.app](https://mclaren-rta.netlify.app/)
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/70188770-aad4-4cd1-addf-ce5a36b286e7/deploy-status)](https://app.netlify.com/sites/mclaren-rta/deploys)
