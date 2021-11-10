@@ -2,7 +2,7 @@ site_name: 'ATLAS Integration Guide'
 site_description: 'Integrating McLaren ATLAS with Existing Systems'
 docs_dir: 'docs'
 repo_url: https://github.com/mat-docs/RTA.Site
-site_url: https://docs.atlas.mclarenapplied.com/integration/
+site_url: https://atlas.mclarenapplied.com/integration/
 
 theme:
   name: 'material'
@@ -25,7 +25,7 @@ extra_css:
 copyright: Copyright &copy; 2021 McLaren Applied Ltd.
 
 nav:
-  - ⇱ Docs Portal:                https://docs.atlas.mclarenapplied.com/
+  - ⇱ Docs Portal:                https://atlas.mclarenapplied.com/
   - Introduction:
     - Overview:                   index.md
     - Architectures:              introduction/architectures.md
