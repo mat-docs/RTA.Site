@@ -56,7 +56,7 @@ It provides session management, stores configuration, and can also store and ser
     This example assumes you are running PostgreSQL on your host machine, accessed through [`host.docker.internal`](https://docs.docker.com/docker-for-windows/networking/#use-cases-and-workarounds) in the connection string below.
 
     Update the command below with the hostname (if not `host.docker.internal`) and user/password.  
-    By default, [RTA Server will initialize the database](../../../services/rta-server/README.md/#init-store) using these credentials.
+    By default, [RTA Server will initialize the database](../../../services/rta-server/#init-store) using these credentials.
 
     In PowerShell:
 
